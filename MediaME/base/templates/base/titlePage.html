@@ -1,0 +1,35 @@
+{% extends 'main.html'%}
+
+{%block content%}
+<style>
+    .title-container{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 3fr 1fr;
+        column-gap: 50px;
+    }
+</style>
+<h1>title page</h1>
+<div class="title-container">
+    
+    <div>
+        <ol>
+            <li href="">Reviews</li>
+            <li>Characters</li>
+            <li>Plot</li>
+            <li>Visuals</li>
+        </ol>
+    </div>
+    <div>
+        <img src="" alt="Poster">
+        <h2>Title</h2>
+        <p> Description Description Description
+         Description Description Description Description 
+         Description Description Description Description
+        </p>
+    </div>
+    <div>
+        <h2>Participants</h2>
+    </div>
+</div>
+{%endblock%}
