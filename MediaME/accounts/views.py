@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+from django.shortcuts import render
+from django.contrib.auth.models import User
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {'user': user}
+    return render(request, 'accounts/profile.html', context)
+=======
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -73,3 +82,4 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect('home')
+>>>>>>> JakeHalbach
