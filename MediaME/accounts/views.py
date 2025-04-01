@@ -1,22 +1,22 @@
-<<<<<<< HEAD
 from django.shortcuts import render
 from django.contrib.auth.models import User
-
-def userProfile(request, pk):
-    user = User.objects.get(id=pk)
-    context = {'user': user}
-    return render(request, 'accounts/profile.html', context)
-=======
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
-
 from .forms import SignupFormStep1, SignupFormStep2
 
 # Create your views here.
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {'user': user}
+    return render(request, 'accounts/profile.html', context)
+
+
+
 
 def signup_step1(request):
     if request.method == 'POST':
@@ -82,4 +82,3 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect('home')
->>>>>>> JakeHalbach
