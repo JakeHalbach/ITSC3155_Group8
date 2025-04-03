@@ -14,7 +14,7 @@ class creator(models.Model):
         return self.name
 
 class media(models.Model):
-    title = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     creator = models.ForeignKey(creator, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
     ##tags= 
@@ -23,7 +23,7 @@ class media(models.Model):
     type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.title
+        return self.name
 # Create your models here.
 
 #env/scripts/activate

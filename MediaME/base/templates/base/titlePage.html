@@ -21,11 +21,16 @@
         </ol>
     </div>
     <div>
+            {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
         <img src="" alt="Poster">
-        <h2>Title</h2>
-        <p> Description Description Description
-         Description Description Description Description 
-         Description Description Description Description
+        <h2>{{title.name}}</h2>
+        <p> {{title.description}}
         </p>
     </div>
     <div>
