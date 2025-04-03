@@ -1,5 +1,6 @@
-<a href="/">
-    <img src="" alt="MediaMe">
-    <h1>LOGO</h1>
-    
-</a>
+<nav>
+        <a href="{% url 'user-profile' pk=user.id %}">Profile</a>
+        {# <a href="{% url 'search' %}">Search</a> #}
+{# <a href="{% url 'settings' %}">Settings</a> #}
+
+</nav>

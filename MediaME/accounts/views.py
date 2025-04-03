@@ -17,7 +17,6 @@ def userProfile(request, pk):
 
 
 
-
 def signup_step1(request):
     if request.method == 'POST':
         form = SignupFormStep1(request.POST)
