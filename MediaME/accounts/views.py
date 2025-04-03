@@ -7,12 +7,14 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 from .forms import SignupFormStep1, SignupFormStep2
+from .models import Profile
 
 # Create your views here.
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    context = {'user': user}
+    profile = user.profile
+    context = {'user': user, 'profile': profile}
     return render(request, 'accounts/profile.html', context)
 
 

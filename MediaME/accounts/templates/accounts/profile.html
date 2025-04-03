@@ -89,19 +89,31 @@
         <div class="profile-content">
             <div class="preferences">
                 <h2>My Preferences</h2>
-                <p><strong>Genres:</strong> {#{ user.profile.genres }#}</p>
-                <p><strong>Types of Media:</strong> {#{ user.profile.media_types }#}</p>
-                <p><strong>Favorite Titles:</strong> {#{ user.profile.favorite_titles }#}</p>
+                <p><strong>Genres:</strong> 
+                    {% for genre in profile.genres.all %}
+                        {{ genre.name }}
+                    {% empty %}
+                        No genres selected.
+                    {% endfor %}
+                </p>
+                <p><strong>Types of Media:</strong> 
+                    {% for media_type in profile.media_types.all %}
+                        {{ media_type.name }}
+                    {% empty %}
+                        No media type selected.
+                    {% endfor %}
+                </p>
+                <p><strong>My Titles:</strong> {#{ user.profile.favorite_titles }#}</p>
             </div>
 
             <div class="profile-header">
                 <img src="{#{ user.profile.image.url }#}" alt="Profile Picture" class="profile-pic">
-                <p class="bio">{#{ user.profile.bio }#}</p>
+                <p class="bio">{{ user.profile.bio }}</p>
             </div>
 
             <div class="interaction-score">
-                <h2>Interaction Score</h2>
-                <p>{#{ user.profile.interaction_score }#}</p>
+                <p>Interaction Score</p>
+                <p>{{ user.profile.interaction_score }}</p>
             </div>
         </div>
 
@@ -113,13 +125,25 @@
 
             <div class="my-favorites">
                 <h2>My Favorites</h2>
-                <p>{#{ user.profile.my_favorites }#}</p>
+                <p>
+                    {% for favorite in profile.favorite_titles.all %}
+                        {{ favorite.title }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        No favorites added yet.
+                    {% endfor %}
+                </p>
             </div>
         </div>
 
         <div class="friends">
             <h2>Friends</h2>
-            <p>{#{ user.profile.friends }#}</p>
+            <p>
+                {% for friend in profile.friends.all %}
+                    {{ friend.username }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No friends added yet.
+                {% endfor %}
+            </p>
         </div>
     </main>
     {% endblock content %}
