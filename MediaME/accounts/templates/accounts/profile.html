@@ -1,36 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Media</title>
+
+    {% extends 'main.html'%}
+
+    {% block content %}
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            padding: 10px 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-        }
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .navbar .right {
-            margin-left: auto;
         }
         main {
             width: 80%;
@@ -108,59 +85,45 @@
             bottom: 0;
         }
     </style>
-</head>
-<body>
-
-    <!-- Header with Navigation Bar -->
-    <header>
-        <div class="navbar">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'profile' %}">Profile</a>
-            <a href="{% url 'logout' %}" class="right">Logout</a>
-        </div>
-    </header>
-
     <main>
         <div class="profile-content">
             <div class="preferences">
                 <h2>My Preferences</h2>
-                <p><strong>Genres:</strong> {{ user.profile.genres }}</p>
-                <p><strong>Types of Media:</strong> {{ user.profile.media_types }}</p>
-                <p><strong>Favorite Titles:</strong> {{ user.profile.favorite_titles }}</p>
+                <p><strong>Genres:</strong> {#{ user.profile.genres }#}</p>
+                <p><strong>Types of Media:</strong> {#{ user.profile.media_types }#}</p>
+                <p><strong>Favorite Titles:</strong> {#{ user.profile.favorite_titles }#}</p>
             </div>
 
             <div class="profile-header">
-                <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="profile-pic">
-                <p class="bio">{{ user.profile.bio }}</p>
+                <img src="{#{ user.profile.image.url }#}" alt="Profile Picture" class="profile-pic">
+                <p class="bio">{#{ user.profile.bio }#}</p>
             </div>
 
             <div class="interaction-score">
                 <h2>Interaction Score</h2>
-                <p>{{ user.profile.interaction_score }}</p>
+                <p>{#{ user.profile.interaction_score }#}</p>
             </div>
         </div>
 
         <div class="media-favorites">
-            <!-- Left: My Media -->
             <div class="my-media">
                 <h2>My Media</h2>
-                <p>{{ user.profile.my_media }}</p>
+                <p>{#{ user.profile.my_media }#}</p>
             </div>
 
             <div class="my-favorites">
                 <h2>My Favorites</h2>
-                <p>{{ user.profile.my_favorites }}</p>
+                <p>{#{ user.profile.my_favorites }#}</p>
             </div>
         </div>
 
         <div class="friends">
             <h2>Friends</h2>
-            <p>{{ user.profile.friends }}</p>
+            <p>{#{ user.profile.friends }#}</p>
         </div>
     </main>
+    {% endblock content %}
 
     <footer>
         <p>&copy; 2025 MediaME. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+    </footer> 
