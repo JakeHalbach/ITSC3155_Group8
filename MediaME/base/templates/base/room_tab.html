@@ -1,19 +1,40 @@
-<h2>{{ media.title }} - {{ room.topic|capfirst }}</h2>
+{% extends 'main.html' %}
 
+{% block content %}
 <div>
-    {% for message in messages %}
-        <p><strong>{{ message.user.username }}</strong>: {{ message.content }}</p>
-    {% empty %}
-        <p>No messages yet.</p>
-    {% endfor %}
+    <h2>{{ room.name }}</h2>
+    <p>{{ room.description }}</p>
+    <hr>
 </div>
 
-{% if user.is_authenticated %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Post</button>
-</form>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> to post a message.</p>
-{% endif %}
+<div style="display: flex; justify-content: space-between; gap: 2rem;">
+    <div style="flex: 3;">
+        <h3>Discussion</h3>
+        {% for message in messages %}
+            <div style="margin-bottom: 1rem;">
+            <strong>{{ message.user.username }}</strong>:
+            <p>{{ message.content }}</p>
+            </div>
+        {% empty %}
+            <p>No messages yet.</p>
+        {% endfor %}
+    </div>
+
+    <div style="flex: 1; border-left: 1px solid #ccc; padding-left: 1rem;">
+        <h3>Participants</h3>
+        {% for participant in participants %}
+            <p>{{ participant.user__username }}</p>
+        {% empty %}
+            <p>No participants yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="content" rows="4" cols="50" placeholder="Write your message..." style="resize: none; width: 91%; max-width: 100%;"></textarea>
+        <button type="submit">Post</button>
+    </form>
+</div>
+{% endblock %}

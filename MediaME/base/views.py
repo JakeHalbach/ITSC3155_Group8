@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SearchForm, RoomForm, MessageForm
-from .models import Media, Room, Message
+from .models import Media, Room, Message, User
 from django.db.models import Count
 # Create your views here.
 
@@ -52,27 +52,18 @@ def titlePage(request, pk):
 def title_page(request, pk):
     media = Media.objects.get(id=pk)
 
-    active_participants = Room.objects.filter(media=media).values('user__username').annotate(post_count=Count('posts')).order_by('-post_count')[:5]
+    active_participants = Room.objects.filter(media=media).values('participants__username').annotate(post_count=Count('messages')).order_by('-post_count')[:10]
 
-    if request.method == 'POST':
-        form = MessageForm(request.POST)
-        if form.is_valid():
-            new_message = form.save(commit=False)
-            new_message.media = media
-            new_message.author = request.user
-            new_message.save()
-            return redirect('title-page', pk=media.pk)
-    else:
-        form = MessageForm()
-
-    context = {'media': media, 'active_participants': active_participants, 'form': form}
+    context = {'media': media, 'active_participants': active_participants}
     return render(request, 'base/titlePage.html', context)
 
 
-def room_tab(request, pk, topic):
+def room_tab(request, pk, tab):
     media = get_object_or_404(Media, id=pk)
-    room = get_object_or_404(Room, media=media, topic=topic)
+    room = get_object_or_404(Room, media=media, tab=tab)
     messages = Message.objects.filter(room=room)
+    participants = User.objects.filter(message__room=room).distinct()
+    
 
     if request.method == 'POST':
         form = MessageForm(request.POST)
@@ -83,10 +74,15 @@ def room_tab(request, pk, topic):
             msg.media = media
             msg.save()
             room.participants.add(request.user)
-            return redirect('room-tab', pk=media.id, topic=topic)
+            return redirect('room-tab', pk=media.id, tab=tab)
     else:
         form = MessageForm()
 
-    context = {'media':media, 'room':room, 'messages':messages, 'form':form}
+    context = {'media':media, 'room':room, 'messages':messages, 'form':form, 'participants': participants}
     return render(request, 'base/room_tab.html', context)
+
+def medias_page(request):
+    medias = Media.objects.all()
+    context = {'medias': medias}
+    return render(request, 'base/medias_page.html', context)
 
