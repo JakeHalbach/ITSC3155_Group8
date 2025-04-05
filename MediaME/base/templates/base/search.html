@@ -10,10 +10,7 @@
     <ul>
         {% for media in results %}
             <li>
-                {{ media.title }} -
-                {% for creator in media.creators.all %}{{ creator.name }}{% if not forloop.last %}, {% endif %}{% endfor %} -
-                {{ media.media_type.name }} -
-                {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                {{ media.title }} - {% for creator in media.creators.all %}{{ creator.name }}{% if not forloop.last %}, {% endif %}{% endfor %} - {{ media.media_type.name }} - {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
             </li>
         {% empty %}
             <li>No results found</li>
