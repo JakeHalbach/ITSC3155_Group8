@@ -20,7 +20,7 @@ def search_page(request):
         if q:
             results = results.filter(title__icontains=q)
         if genre:
-            results = results.filter(genre=genre)
+            results = results.filter(genres=genre)
         if media_type:
             results = results.filter(media_type=media_type)
 

@@ -1,15 +1,17 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <form method="get" action="{% url 'search_page' %}">
+    <form method="get" action="{% url 'search-page' %}">
         {{ form.as_p }}
         <button type="submit">Search</button>
     </form>
 
     <h2>Results</h2>
     <ul>
-        {% for media in media_results %}
-            <li>{{ media.title }} - {{ media.creator.name }} - {{ media.media_type.name }} - {{ media.genre.name }}</li>
+        {% for media in results %}
+            <li>
+                {{ media.title }} - {% for creator in media.creators.all %}{{ creator.name }}{% if not forloop.last %}, {% endif %}{% endfor %} - {{ media.media_type.name }} - {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </li>
         {% empty %}
             <li>No results found</li>
         {% endfor %}

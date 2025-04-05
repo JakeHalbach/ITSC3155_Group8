@@ -9,6 +9,7 @@ urlpatterns = [
     path('create-room/', views.create_room, name='create-room'),
 
     path('media/', views.medias_page, name='medias-page'),
+    
     path('titlePage/<str:pk>/',views.titlePage, name="title_page"),
     path('media/<int:pk>/', views.title_page, name='title-page'),
 
