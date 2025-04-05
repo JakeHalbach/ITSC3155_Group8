@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SearchForm, RoomForm, MessageForm
 from .models import Media, Room, Message, User
-from django.db.models import Count
+from django.db.models import Count, F
 # Create your views here.
 
 
@@ -43,6 +43,8 @@ def create_room(request):
 
     return render(request, 'base/room_form.html', context)
 
+
+
 def titlePage(request, pk):
     title= Media.objects.get(id = pk)
     messages.error(request, title)
@@ -52,10 +54,11 @@ def titlePage(request, pk):
 def title_page(request, pk):
     media = Media.objects.get(id=pk)
 
-    active_participants = Room.objects.filter(media=media).values('participants__username').annotate(post_count=Count('messages')).order_by('-post_count')[:10]
+    active_participants = Message.objects.filter(room__media=media).values(username=F('user__username')).annotate(post_count=Count('id')).order_by('-post_count')[:10]
 
     context = {'media': media, 'active_participants': active_participants}
     return render(request, 'base/titlePage.html', context)
+
 
 
 def room_tab(request, pk, tab):
