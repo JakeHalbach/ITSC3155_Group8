@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <form method="get" action="{% url 'search_page' %}">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Results</h2>
+    <ul>
+        {% for media in media_results %}
+            <li>{{ media.title }} - {{ media.creator.name }} - {{ media.media_type.name }} - {{ media.genre.name }}</li>
+        {% empty %}
+            <li>No results found</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
