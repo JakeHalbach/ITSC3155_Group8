@@ -1,10 +1,42 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Complete Sign Up</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
 
-<br><br>
-    <a href = "{% url 'impression' %}">
-        <button> Back to Main Page</button>
-    </a>
+<head>
+    <!-- Include Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <p><strong>Sign Up:</strong></p>
+    <form method="POST">
+        {% csrf_token %}
+        <p><strong>Select Your Preferred Genres:</strong></p>
+        <div>
+            {{ form.genres }}
+        </div>
+
+        <p><strong>Select Preferred Media Types:</strong></p>
+        <div>
+            {{ form.media_types }}
+        </div>
+        
+        <button type="submit">Complete Sign Up</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+
+    <br><br>
+        <a href = "{% url 'impression' %}">
+            <button> Back to Main Page</button>
+        </a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('select').select2();  // Apply Select2 to the dropdown
+        });
+    </script>
+
+</body>
+</html>

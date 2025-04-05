@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from base.models import Type
+from base.models import Type, Genre
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
@@ -23,5 +23,14 @@ class SignupFormStep1(forms.Form):
         return cleaned_data
 
 class SignupFormStep2(forms.Form):
-    genres = forms.CharField(widget=forms.Textarea, help_text="Enter Prefered Genres (comma separated)")
-    ##Type = forms.CharField(widget=forms.ModelMultipleChoiceField)
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all(), 
+        widget=forms.SelectMultiple(attrs={'class': 'form-control', 'size': '10', 'id': 'id_genres'}),
+        help_text="Select preferred genres (use Ctrl or Command for multiple selection)"
+    )
+    media_types = forms.ModelMultipleChoiceField(
+        queryset=Type.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'form-control', 'size': '10', 'id': 'id_media_types'}),
+        help_text="Select preferred media types (use Ctrl or Command for multiple selection)"
+    )
+

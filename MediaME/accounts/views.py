@@ -39,12 +39,13 @@ def signup_step2(request):
             user = User.objects.create_user(
                 username = request.session['username'],
                 email = request.session['email'],
-                password = request.session['password1'],
+                password = request.session['password'],
             )
 
-            user.profile.genres = form.cleaned_data['genres']
-            user.profile.media_types = form.cleaned_data['media_types']
-            user.profile.save()
+            profile = user.profile
+            profile.genres.set(form.cleaned_data['genres'])
+            profile.media_types.set(form.cleaned_data['media_types'])
+            profile.save()
 
             del request.session['username']
             del request.session['email']

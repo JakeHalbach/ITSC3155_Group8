@@ -1,10 +1,20 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Next</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
 
-<br><br>
-    <a href = "{% url 'impression' %}">
-        <button> Back to Main Page</button>
-    </a>
+<body>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Next</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+
+    <br><br>
+        <a href = "{% url 'impression' %}">
+            <button> Back to Main Page</button>
+        </a>
+
+</body>
+</html>
