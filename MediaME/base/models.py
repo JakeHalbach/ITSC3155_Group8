@@ -22,6 +22,7 @@ class Media(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
+    ##poster = models.ImageField()
 
     def __str__(self):
         return self.title

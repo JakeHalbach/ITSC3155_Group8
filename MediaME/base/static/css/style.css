@@ -1,0 +1,38 @@
+.title-container{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /*grid-template-rows: 3fr 1fr;*/
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+.side-container{
+    background: #BDBDBD;
+    padding-bottom: 100%;
+}
+.side-container ul{
+    padding: 0;
+    text-indent: 10%;
+    
+}
+.side-container li{
+    border-bottom: 2px black solid; 
+    list-style: none;
+    text-align: left;
+    margin-left: 0;
+    font-size: 20px;
+    font-weight: 500;
+    height: auto;
+    
+}
+/*.main-container{
+
+}*/
+.main-container h2{
+    text-align: center;
+    
+}
+/*.main-container img{
+    align-self: center;
+    
+}*/
