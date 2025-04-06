@@ -1,32 +1,38 @@
 {% extends 'main.html'%}
-
+{% load static %}
 {%block content%}
-<style>
-    .title-container{
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-template-rows: 3fr 1fr;
-        column-gap: 50px;
-    }
-</style>
-<h1>Title page</h1>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<h1>title page</h1>
 <div class="title-container">
     
-    <div>
+    <div class="side-container">
         <ul>
-            <li><a href="#reviews">Reviews</a></li>
-            <li><a href="#characters">Characters</a></li>
-            <li><a href="#plot">Plot</a></li>
-            <li><a href="#visuals">Visuals</a></li>
+            <li href=""><strong>Reviews</strong></li>
+            <li><strong>Characters</strong></li>
+            <li><strong>Plot</strong></li>
+            <li><strong>Visuals</strong></li>
         </ul>
     </div>
-    <div>
-            {% if messages %}
+    <div class="main-container">
+        <img src="../../static/images/testimage.png" alt="Poster">
+        <br>
+        <h2>{{media.title}}</h2>
+        
+        <p> {{media.description}}
+        </p>
+    </div>
+</div>
+<div>
+    <h2>Participants</h2>
+</div>
+{%endblock%}
+<!--{% if messages %}
             <ul class="messages">
             {% for message in messages %}
             <li>{{ message }}</li>
             {% endfor %}
             </ul>
+            {% endif %}-->
             {% endif %}
         <img src="" alt="Poster">
         <h2>{{ media.title }}</h2>
