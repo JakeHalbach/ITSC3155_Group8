@@ -31,14 +31,6 @@ class Media(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None
-        super().save(*args, **kwargs)
-
-        if is_new:
-            for tab in ['reviews', 'characters', 'plot', 'visuals']:
-                Room.objects.create(media=self, tab=tab)
-
     def __str__(self):
         return self.title
 
@@ -62,9 +54,9 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        if self.media and self.tab:
-            self.name = f"{self.media.title} - {self.tab.capitalize()}"
-        super().save(*args, **kwargs)
+        if self.media:
+            self.name = self.media.title
+        super(Room, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-updated', '-created']
@@ -74,7 +66,7 @@ class Room(models.Model):
     
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, related_name='messages', on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

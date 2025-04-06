@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SearchForm, RoomForm, MessageForm
-from .models import Media, Room, Message, User
-from django.db.models import Count, F
+from .models import Media, Room, Message
+from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
 
 
 def impression(request):
@@ -20,7 +22,7 @@ def search_page(request):
         if q:
             results = results.filter(title__icontains=q)
         if genre:
-            results = results.filter(genres=genre)
+            results = results.filter(genre=genre)
         if media_type:
             results = results.filter(media_type=media_type)
 
@@ -43,8 +45,6 @@ def create_room(request):
 
     return render(request, 'base/room_form.html', context)
 
-
-
 def titlePage(request, pk):
     title= Media.objects.get(id = pk)
     messages.error(request, title)
@@ -54,19 +54,27 @@ def titlePage(request, pk):
 def title_page(request, pk):
     media = Media.objects.get(id=pk)
 
-    active_participants = Message.objects.filter(room__media=media).values(username=F('user__username')).annotate(post_count=Count('id')).order_by('-post_count')[:10]
+    active_participants = Room.objects.filter(media=media).values('user__username').annotate(post_count=Count('posts')).order_by('-post_count')[:5]
 
-    context = {'media': media, 'active_participants': active_participants}
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            new_message = form.save(commit=False)
+            new_message.media = media
+            new_message.author = request.user
+            new_message.save()
+            return redirect('title-page', pk=media.pk)
+    else:
+        form = MessageForm()
+
+    context = {'media': media, 'active_participants': active_participants, 'form': form}
     return render(request, 'base/titlePage.html', context)
 
 
-
-def room_tab(request, pk, tab):
+def room_tab(request, pk, topic):
     media = get_object_or_404(Media, id=pk)
-    room = get_object_or_404(Room, media=media, tab=tab)
+    room = get_object_or_404(Room, media=media, topic=topic)
     messages = Message.objects.filter(room=room)
-    participants = User.objects.filter(message__room=room).distinct()
-    
 
     if request.method == 'POST':
         form = MessageForm(request.POST)
@@ -77,15 +85,17 @@ def room_tab(request, pk, tab):
             msg.media = media
             msg.save()
             room.participants.add(request.user)
-            return redirect('room-tab', pk=media.id, tab=tab)
+            return redirect('room-tab', pk=media.id, topic=topic)
     else:
         form = MessageForm()
 
-    context = {'media':media, 'room':room, 'messages':messages, 'form':form, 'participants': participants}
+    context = {'media':media, 'room':room, 'messages':messages, 'form':form}
     return render(request, 'base/room_tab.html', context)
 
-def medias_page(request):
-    medias = Media.objects.all()
-    context = {'medias': medias}
-    return render(request, 'base/medias_page.html', context)
+@login_required(login_url='login')
+def homePage(request):
+    user_rooms = Room.objects.filter(host=request.user) | Room.objects.filter(participants=request.user)
+    user_rooms = user_rooms.distinct()
 
+    context = {'user_rooms': user_rooms}
+    return render(request, 'base/home.html', context)
