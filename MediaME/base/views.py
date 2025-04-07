@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SearchForm, RoomForm, MessageForm
-from .models import Media, Room, Message
+from .models import Media, Room, Message, Type, Genre
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -14,7 +14,7 @@ def impression(request):
 def search_page(request):
     form = SearchForm(request.GET)
     results = Media.objects.all()
-
+    
     if form.is_valid():
         q = form.cleaned_data.get('q')
         genre = form.cleaned_data.get('genre')
@@ -22,7 +22,7 @@ def search_page(request):
         if q:
             results = results.filter(title__icontains=q)
         if genre:
-            results = results.filter(genre=genre)
+            results = results.filter(genres=genre)
         if media_type:
             results = results.filter(media_type=media_type)
 
