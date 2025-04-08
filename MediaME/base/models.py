@@ -9,7 +9,6 @@ class Type(models.Model):
 
 class Creator(models.Model):
     name = models.CharField(max_length=200)
-    #medias = 
 
     def __str__(self):
         return self.name
@@ -22,7 +21,7 @@ class Genre(models.Model):
 
 class Media(models.Model):
     title = models.CharField(max_length=200)
-    creator = models.ForeignKey(Creator, on_delete=models.SET_NULL, null=True)
+    creators = models.ManyToManyField(Creator, related_name='created_media', blank=True)
     genres = models.ManyToManyField(Genre, related_name='media_items', blank=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
@@ -30,9 +29,13 @@ class Media(models.Model):
     ##tags= 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     ##poster = models.ImageField()
-    ##poster = models.ImageField()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.rooms.exists():
+            for tab in ['reviews', 'characters', 'plot', 'visuals']:
+                Room.objects.create(media=self, tab=tab)
 
     def __str__(self):
         return self.title
@@ -57,9 +60,9 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        if self.media:
-            self.name = self.media.title
-        super(Room, self).save(*args, **kwargs)
+        if self.media and self.tab:
+            self.name = f"{self.media.title} - {self.tab.capitalize()}"
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-updated', '-created']
@@ -82,8 +85,6 @@ class Message(models.Model):
         return self.content[0:50]
 
 
-
-# Create your models here.
 
 #env/scripts/activate
 #cd mediame
