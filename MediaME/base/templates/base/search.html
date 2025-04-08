@@ -9,7 +9,9 @@
     <h2>Results</h2>
     <ul>
         {% for media in results %}
-            <li>{{ media.title }} - {{ media.creator }} - {{ media.media_type }} - {{ media.genre }}</li>
+            <li>
+                {{ media.title }} - {% for creator in media.creators.all %}{{ creator.name }}{% if not forloop.last %}, {% endif %}{% endfor %} - {{ media.media_type.name }} - {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </li>
         {% empty %}
             <li>No results found</li>
         {% endfor %}
