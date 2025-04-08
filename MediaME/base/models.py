@@ -26,7 +26,7 @@ class Media(models.Model):
     genres = models.ManyToManyField(Genre, related_name='media_items', blank=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
-    # poster = models.ImageField(upload_to='media_posters/')
+    poster = models.ImageField(upload_to='images/', null=True)
     ##tags= 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
