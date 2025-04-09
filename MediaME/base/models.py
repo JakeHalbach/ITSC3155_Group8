@@ -9,6 +9,7 @@ class Type(models.Model):
 
 class Creator(models.Model):
     name = models.CharField(max_length=200)
+    #medias = 
 
     def __str__(self):
         return self.name
@@ -29,13 +30,6 @@ class Media(models.Model):
     ##tags= 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    ##poster = models.ImageField()
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.rooms.exists():
-            for tab in ['reviews', 'characters', 'plot', 'visuals']:
-                Room.objects.create(media=self, tab=tab)
 
     def __str__(self):
         return self.title
@@ -60,9 +54,9 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        if self.media and self.tab:
-            self.name = f"{self.media.title} - {self.tab.capitalize()}"
-        super().save(*args, **kwargs)
+        if self.media:
+            self.name = self.media.title
+        super(Room, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-updated', '-created']
@@ -85,6 +79,8 @@ class Message(models.Model):
         return self.content[0:50]
 
 
+
+# Create your models here.
 
 #env/scripts/activate
 #cd mediame

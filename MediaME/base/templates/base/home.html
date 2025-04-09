@@ -1,33 +1,25 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<main class="container">
-  <section class="welcome-section">
-    <h2>Welcome, {{ request.user.username }}</h2>
-  </section>
+  <h2>Welcome, {{ request.user.username }}</h2>
 
-  <section class="user-rooms-section">
-    <h3>Your Rooms</h3>
-    {% if user_rooms %}
-      <ul class="room-list">
-        {% for room in user_rooms %}
-          <li class="room-item">
-            <a href="{% url 'room-tab' room.media.id room.tab %}" class="room-link">
-              {{ room.name }} ({{ room.tab }})
-            </a>
-            {% if room.host == request.user %}
-              <span class="host-badge">You are the host</span>
-              <a href="{% url 'Edit' room.id %}" class="edit-btn">Edit</a>
-              <a href="{% url 'Delete' room.id %}" class="delete-btn">Delete</a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="no-rooms-msg">You haven't joined or created any rooms yet.</p>
-    {% endif %}
+  <h3>Your Rooms</h3>
+  {% if user_rooms %}
+    <ul>
+      {% for room in user_rooms %}
+        <li>
+          <a href="{% url 'room-tab' room.media.id room.tab %}">{{ room.name }} ({{ room.tab }})</a>
+          {% if room.host == request.user %}
+            - <strong>You are the host</strong>
+            <a href="{% url 'Edit' room.id %}">Edit</a>
+            <a href="{% url 'Delete' room.id %}">Delete</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't joined or created any rooms yet.</p>
+  {% endif %}
 
-    <a href="{% url 'create-room' %}" class="cta-link">Create New Room</a>
-  </section>
-</main>
+  <a href="{% url 'create-room' %}">Create New Room</a>
 {% endblock %}

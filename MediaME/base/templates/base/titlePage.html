@@ -1,34 +1,38 @@
 {% extends 'main.html'%}
-{% load static %}
+
 {%block content%}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<h1>title page</h1>
+<style>
+    .title-container{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 3fr 1fr;
+        column-gap: 50px;
+    }
+</style>
+<h1>Title page</h1>
 <div class="title-container">
     
-    <div class="side-container">
+    <div>
         <ul>
-            <li href=""><strong>Reviews</strong></li>
-            <li><strong>Characters</strong></li>
-            <li><strong>Plot</strong></li>
-            <li><strong>Visuals</strong></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#characters">Characters</a></li>
+            <li><a href="#plot">Plot</a></li>
+            <li><a href="#visuals">Visuals</a></li>
         </ul>
     </div>
-    <div class="main-container">
-        <img src="../../static/images/OIP.jpg" alt="Poster" class="center">
-        
-        <h2>{{media.title}}</h2>
-        <br>
-        <p> {{media.description}}
-        </p>
-    </div>
-</div>
-<!--{% if messages %}
+    <div>
+            {% if messages %}
             <ul class="messages">
             {% for message in messages %}
             <li>{{ message }}</li>
             {% endfor %}
             </ul>
-            {% endif %}-->
+            {% endif %}
+        <img src="" alt="Poster">
+        <h2>{{ media.title }}</h2>
+        <p>{{ media.description }}</p>
+    </div>
+</div>
 <div class="active-participants">
     <h3>Most Active Participants</h3>
     <ul>
