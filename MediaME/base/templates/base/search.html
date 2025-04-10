@@ -18,8 +18,10 @@
                     
                     
                     <li>
+                        {% if media.poster %}
                         <a href="{% url 'title_page' media.id %}"><img src="{{media.poster.url}}" alt="poster" class="result-poster"></a>
-                        {{ media.title }} - {{ media.creator }} - {{ media.media_type }} - {{ media.genre }}
+                        {% endif %}
+                        {{ media.title }} - {{ media.creator }} - {{ media.media_type }} - {{ media.genres }}
                     </li>
                 {% empty %}
                     <li>No results found</li>
