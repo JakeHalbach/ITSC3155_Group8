@@ -1,42 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaME Sign Up</title>
+
+    <!-- Your custom styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
     <!-- Include Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
-    <p><strong>Sign Up:</strong></p>
-    <form method="POST">
-        {% csrf_token %}
-        <p><strong>Select Your Preferred Genres:</strong></p>
-        <div>
+    <div class="auth-container">
+        <h2>MediaME Sign Up</h2>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            <label><strong>Select Your Preferred Genres:</strong></label>
             {{ form.genres }}
-        </div>
 
-        <p><strong>Select Preferred Media Types:</strong></p>
-        <div>
+            <label><strong>Select Preferred Media Types:</strong></label>
             {{ form.media_types }}
-        </div>
-        
-        <button type="submit">Complete Sign Up</button>
-    </form>
+            
+            <button type="submit" class="auth-btn">Complete Sign Up</button>
+        </form>
 
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        <p>Already have an account? <a href="{% url 'login' %}" class="auth-link">Login here</a></p>
 
-    <br><br>
-        <a href = "{% url 'impression' %}">
-            <button> Back to Main Page</button>
-        </a>
+        <a href="{% url 'impression' %}" class="back-btn">Back to Main Page</a>
+    </div>
 
+    <!-- Select2 Scripts (keep these for enhanced dropdowns) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('select').select2();  // Apply Select2 to the dropdown
+            $('select').select2();
         });
     </script>
-
 </body>
 </html>
