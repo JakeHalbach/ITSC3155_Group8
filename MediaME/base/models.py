@@ -21,22 +21,25 @@ class Genre(models.Model):
 
 class Media(models.Model):
     title = models.CharField(max_length=200)
-    creators = models.ManyToManyField(Creator, related_name='created_media', blank=True)
-    genres = models.ManyToManyField(Genre, related_name='media_items', blank=True)
+    creator = models.ForeignKey(Creator, on_delete=models.SET_NULL, related_name='created_media', blank=True, null=True)
+    genres = models.ForeignKey(Genre, on_delete=models.SET_NULL, related_name='media_items', blank=True, null=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
-    poster = models.ImageField(upload_to='images/', null=True)
+    poster = models.ImageField(upload_to='images/', null=True, blank=True, default='../images/images/spongeboy.jpg')
     ##tags= 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     ##poster = models.ImageField()
-
-    def save(self, *args, **kwargs):
+    def poster_url(self):
+        if self.poster and hasattr(self.poster, 'url'):
+            return self.poster.url
+        
+    """def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.rooms.exists():
             for tab in ['reviews', 'characters', 'plot', 'visuals']:
                 Room.objects.create(media=self, tab=tab)
-
+"""
     def __str__(self):
         return self.title
 

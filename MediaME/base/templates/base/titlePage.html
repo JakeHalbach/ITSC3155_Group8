@@ -14,8 +14,9 @@
         </ul>
     </div>
     <div class="main-container">
+        {% if media.poster %}
         <img src="{{media.poster.url}}" alt="{{media.title}}" class="center">
-        
+        {% endif %}
         <h2>{{media.title}}</h2>
         <br>
         <p> {{media.description}}
