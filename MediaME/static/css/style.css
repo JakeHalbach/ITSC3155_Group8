@@ -148,19 +148,24 @@ h3{
     transition: transform 0.3s, box-shadow 0.3s;
 } */
 
-#search-header {
+
+.search-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 20px;
 }
 
-.search-box {
-    text-align: right;
-    margin-bottom: 20px;
+.search-header-left h2 {
+    margin: 0;
+}
+
+.search-form {
+    display: flex;
 }
 
 .search-box-input {
-    padding: 5px;
+    padding: 8px;
     margin-right: 10px;
     width: 250px;
 }
@@ -174,97 +179,61 @@ h3{
 .filters {
     display: flex;
     justify-content: space-between;
-}
-
-.filters label {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #000000;
-    margin-bottom: 8px;
-    display: block;
+    gap: 20px;
 }
 
 .filter-column {
-    width: 30%;
+    flex: 1;
 }
 
 .filter-button {
-    display: block;
+    display: inline-block;
     background-color: rgba(101,84,143);
     color: white;
-    padding: 8px;
-    margin-top: 5px;
-    text-align: center;
+    padding: 6px 12px;
+    margin: 5px 5px 0 0;
     text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.filter-button:hover {
-    background-color: rgb(72, 60, 103);
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 input[type="checkbox"] {
     display: none;
 }
 
-label.filter-button {
+.filter-button span {
     display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    background-color: rgba(101, 84, 143, 0.8);
-}
-
-label.filter-button:hover {
-    background-color: rgb(72, 60, 103);
-}
-
-label.selected {
-    background-color: rgb(72, 60, 103);
+    background-color: rgba(101,84,143);
     color: white;
 }
 
-label input[type="checkbox"]:checked + span {
-    background-color: rgb(72, 60, 103);
+.filter-button input[type="checkbox"]:checked + span {
+    background-color: rgba(22, 200, 31, 0.8);
     color: white;
+    font-size: 14px;
 }
 
+.filter-button input {
+    margin-right: 5px;
+}
 
 .results-header {
-    font-size: 18px;
-    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+}
+
+.results {
+    padding: 20px;
 }
 
 .results ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    display:grid;
-    grid-column: 2;
-    grid-template-columns: 1fr 1fr ;
 }
 
 .results li {
     margin-bottom: 10px;
-    display: grid;
-    grid-row: 1fr 4fr;
-    padding: 10%;
-    margin: 10%;
-    background-color: #bdbdbd;
-    border-radius: 15px;
-    list-style: none;
-    text-align: center;
 }
 
-.results a {
-    text-decoration: none;
-    color: #2a2a2a;
-}
 
-.results a:hover {
-    color: #4a4a4a;
-}
 

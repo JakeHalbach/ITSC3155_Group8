@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
-<div class="search-box">
+<!-- <div class="search-box">
     <form class="search-form" method="get" action="{% url 'search_page' %}">
         {{ form.as_p }}
         <button type="submit">Search</button>
@@ -29,5 +29,83 @@
             </div>
             
         </ul>
+    </div> -->
+
+<div class="search-header">
+    <div class="search-header-left">
+        <h2>Filter search results:</h2>
     </div>
+    <div class="search-header-right">
+        <form class="search-form" method="get" action="{% url 'search_page' %}">
+            <input type="text" name="q" placeholder="Search Title, Genre, Media" value="{{ request.GET.q }}" class="search-box-input">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="filter-section">
+    <div class="filters">
+
+        <!-- Sort By -->
+        <div class="filter-column">
+            <h4>Sort By:</h4>
+            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}sort=title" class="filter-button">Title</a>
+            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}sort=date" class="filter-button">Date</a>
+        </div>
+
+        <!-- Required Genres -->
+        <div class="filter-column">
+            <h4>Required Genres:</h4>
+            {% for genre in form.genre.field.queryset %}
+            <label class="filter-button">
+                <input type="checkbox" name="genre" value="{{ genre.id }}"
+                {% if genre.id|stringformat:'s' in selected_genres %}checked{% endif %}>
+                <span>{{ genre.name }}</span>
+            </label>
+            {% endfor %}
+        </div>
+
+        <!-- Media Type -->
+        <div class="filter-column">
+            <h4>Media Type:</h4>
+            {% for media_type in form.media_type.field.queryset %}
+                <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}media_type={{ media_type.id }}" class="filter-button">
+                    {{ media_type.name }}
+                </a>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<!-- Results header -->
+<div class="results-header">
+    {% if request.GET.q %}
+        {% if results.count %}
+            <h3>1-{{ results.count }} of {{ results.count }} Matching: “{{ request.GET.q }}”</h3>
+        {% else %}
+            <h3>0 Matching: “{{ request.GET.q }}”</h3>
+        {% endif %}
+    {% else %}
+        <h3>Results</h3>
+    {% endif %}
+</div>
+
+<!-- Results list -->
+<div class="results">
+    <ul>
+        {% for media in results %}
+            <li>
+                <a href="{% url 'title_page' media.id %}">{{ media.title }}</a> — {{ media.media_type.name }}
+                — {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </li>
+        {% empty %}
+            <li>No results found.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
 {% endblock %}

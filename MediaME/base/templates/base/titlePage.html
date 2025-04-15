@@ -7,10 +7,13 @@
     
     <div class="side-container">
         <ul>
-            <li href=""><strong>Reviews</strong></li>
-            <li><strong>Characters</strong></li>
-            <li><strong>Plot</strong></li>
-            <li><strong>Visuals</strong></li>
+            {% for room in media.rooms.all %}
+                <li>
+                    <a href="{% url 'room-tab' pk=media.id tab=room.tab %}">
+                        {{ room.tab|capfirst }}
+                    </a>
+                </li>
+            {% endfor %}
         </ul>
     </div>
     <div class="main-container">
