@@ -9,11 +9,14 @@ from django.contrib.auth.decorators import login_required
 
 
 def impression(request):
-    return render(request, 'base/impression.html')
+    popular_rooms = Room.objects.annotate(num_participants=Count('participants')).order_by('-num_participants')[:6]
+    return render(request, 'base/impression.html', {'popular_rooms': popular_rooms})
 
 def search_page(request):
     form = SearchForm(request.GET)
     results = Media.objects.all()
+    genres = Genre.objects.all()
+    media_types = Type.objects.all()
     
     if form.is_valid():
         q = form.cleaned_data.get('q')
