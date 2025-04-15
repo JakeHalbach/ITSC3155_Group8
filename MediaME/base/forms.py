@@ -15,9 +15,9 @@ class RoomForm(forms.ModelForm):
 class SearchForm(forms.Form):
     q = forms.CharField(max_length=200, label='Search', required=False,
     widget=forms.TextInput(attrs={'class': 'q_p'}) )
-    genre = forms.ModelChoiceField(queryset=Genre.objects.all(), required=False, label="Genre",
-    widget=forms.Select(attrs={'class': 'genre_p'}) )
-    media_type = forms.ModelChoiceField(queryset=Type.objects.all(), required=False, label="Media Type",
+    genre = forms.ModelMultipleChoiceField(queryset=Genre.objects.all(), required=False, label="Genre(s)", 
+    widget=forms.CheckboxSelectMultiple )
+    media_type = forms.ModelChoiceField(queryset=Type.objects.all(), required=False,   label="Media Type",
     widget=forms.Select(attrs={'class': 'type_p'}) )
 
     def __init__(self, *args, **kwargs):
