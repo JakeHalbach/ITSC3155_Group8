@@ -1,0 +1,43 @@
+{% extends 'main.html'%}
+{% load static %}
+{%block content%}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<h1>title page</h1>
+<div class="title-container">
+    
+    <div class="side-container">
+        <ul>
+            <li href=""><strong>Reviews</strong></li>
+            <li><strong>Characters</strong></li>
+            <li><strong>Plot</strong></li>
+            <li><strong>Visuals</strong></li>
+        </ul>
+    </div>
+    <div class="main-container">
+        {% if media.poster %}
+        <img src="{{media.poster.url}}" alt="{{media.title}}" class="center">
+        {% endif %}
+        <h2>{{media.title}}</h2>
+        <br>
+        <p> {{media.description}}
+        </p>
+    </div>
+</div>
+<!--{% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}-->
+<div class="active-participants">
+    <h3>Most Active Participants</h3>
+    <ul>
+        {% for participant in active_participants %}
+            <li>{{ participant.username }} - Posts: {{ participant.post_count }}</li>
+        {% empty %}
+            <li>No active participants yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{%endblock%}

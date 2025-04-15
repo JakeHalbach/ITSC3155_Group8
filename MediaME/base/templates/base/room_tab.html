@@ -1,0 +1,19 @@
+<h2>{{ media.title }} - {{ room.topic|capfirst }}</h2>
+
+<div>
+    {% for message in messages %}
+        <p><strong>{{ message.user.username }}</strong>: {{ message.content }}</p>
+    {% empty %}
+        <p>No messages yet.</p>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+</form>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to post a message.</p>
+{% endif %}

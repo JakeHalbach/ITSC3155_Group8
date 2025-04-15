@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaME Log In</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Log In</h2>
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="auth-btn">Log In</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'signup_step1' %}" class="auth-link">Sign Up</a></p>
+        <a href="{% url 'impression' %}" class="back-btn">Back to Main Page</a>
+    </div>
+</body>
+</html>

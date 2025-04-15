@@ -1,0 +1,153 @@
+
+    {% extends 'main.html'%}
+
+    {% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        main {
+            width: 80%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-content {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .preferences, .interaction-score {
+            width: 45%;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .profile-header {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #555;
+        }
+        .bio {
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #555;
+            padding-bottom: 5px;
+            text-align: left;
+        }
+        .media-favorites {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .my-media, .my-favorites {
+            width: 45%;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .friends {
+            margin-top: 30px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+    <main>
+        <div class="profile-content">
+            <div class="preferences">
+                <h2>My Preferences</h2>
+                <p><strong>Genres:</strong> 
+                    {% for genre in profile.genres.all %}
+                        {{ genre.name }}
+                    {% empty %}
+                        No genres selected.
+                    {% endfor %}
+                </p>
+                <p><strong>Types of Media:</strong> 
+                    {% for media_type in profile.media_types.all %}
+                        {{ media_type.name }}
+                    {% empty %}
+                        No media type selected.
+                    {% endfor %}
+                </p>
+                <p><strong>My Titles:</strong> {#{ user.profile.favorite_titles }#}</p>
+            </div>
+
+            <div class="profile-header">
+                <img src="{#{ user.profile.image.url }#}" alt="Profile Picture" class="profile-pic">
+                <p class="bio">{{ user.profile.bio }}</p>
+            </div>
+
+            <div class="interaction-score">
+                <p>Interaction Score</p>
+                <p>{{ user.profile.interaction_score }}</p>
+            </div>
+        </div>
+
+        <div class="media-favorites">
+            <div class="my-media">
+                <h2>My Media</h2>
+                <p>{#{ user.profile.my_media }#}</p>
+            </div>
+
+            <div class="my-favorites">
+                <h2>My Favorites</h2>
+                <p>
+                    {% for favorite in profile.favorite_titles.all %}
+                        {{ favorite.title }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        No favorites added yet.
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+
+        <div class="friends">
+            <h2>Friends</h2>
+            <p>
+                {% for friend in profile.friends.all %}
+                    {{ friend.username }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No friends added yet.
+                {% endfor %}
+            </p>
+        </div>
+    </main>
+    {% endblock content %}
+
+    <footer>
+        <p>&copy; 2025 MediaME. All rights reserved.</p>
+    </footer> 

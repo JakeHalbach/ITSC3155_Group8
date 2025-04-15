@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaME</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="main-header">
+        <h1>MediaME</h1>
+        {% include 'navbar.html' %}
+    </header>
+
+    <main class="container">
+        
+        <section class="about-section">
+            <h2>About MediaME!</h2>
+            <div class="about-content">
+                <div class="feature-card">
+                    <h3>📚 Your Media Universe</h3>
+                    <p>MediaME is the ultimate hub for passionate fans of books, shows, and movies. Discover, discuss, and dive deeper into the media you love with like-minded enthusiasts.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>💬 Vibrant Discussions</h3>
+                    <p>Join thousands of topic-specific forums or create your own. Our flexible moderation system lets forum creators maintain quality discussions through private forums or user bans.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>✨ Personalized Recommendations</h3>
+                    <p>Get smart suggestions tailored to your tastes from both our algorithm and real community members who share your interests.</p>
+                </div>
+                
+                <div class="cta-box">
+                    <p>Ready to explore? <a href="{% url 'signup_step1' %}" class="cta-link">Sign up</a> today and connect with fellow media enthusiasts!</p>
+                    <p>Already have an account? <a href = "{% url 'login' %}" class = "cta-link">Log In</a> here!</p>
+                </div>
+            </div>
+        </section>
+        
+
+        <section class="contact-section">
+            <h2>Have a question or complaint?</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>First name</label>
+                    <input type="text" placeholder="Jane">
+                </div>
+                <div class="form-group">
+                    <label>Last name</label>
+                    <input type="text" placeholder="Smitherton">
+                </div>
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" placeholder="email@janesfakedomain.net">
+                </div>
+                <div class="form-group">
+                    <label>Forum/Media ID</label>
+                    <input type="text" placeholder="123456789">
+                </div>
+                <div class="form-group">
+                    <label>Your message</label>
+                    <textarea placeholder="Enter your question or message"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </section>
+
+        <section class="forums-section">
+            <h2>Our Most Popular Forums!</h2>
+            <div class="forum-grid">
+                <div class="forum-item">
+                    <h3>A Header</h3>
+                    <p>Subhead</p>
+                </div>
+                <div class="forum-item">
+                    <h3>A Header</h3>
+                    <p>Subhead</p>
+                </div>
+                <div class="forum-item">
+                    <h3>A Header</h3>
+                    <p>Subhead</p>
+                </div>
+                <div class="forum-item">
+                    <h3>A Header</h3>
+                    <p>Subhead</p>
+                </div>
+                <div class="forum-item">
+                    <h3>A Header</h3>
+                    <p>Subhead</p>
+                </div>
+                <div class="forum-item">
+                    <h3>A Header</h3>
+                    <p>Subhead</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <!-- FAQ content would go here -->
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>MediaME</p>
+    </footer>
+</body>
+</html>
