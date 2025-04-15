@@ -6,11 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediaME</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
         <h1>MediaME</h1>
-        {% include 'navbar.html' %}
+        <div id="first-impressions-navbar">
+            {% include 'navbar.html' %}
+        </div>
     </header>
 
     <main class="container">
@@ -39,69 +49,58 @@
                 </div>
             </div>
         </section>
-        
-
-        <section class="contact-section">
-            <h2>Have a question or complaint?</h2>
-            <form class="contact-form">
-                <div class="form-group">
-                    <label>First name</label>
-                    <input type="text" placeholder="Jane">
-                </div>
-                <div class="form-group">
-                    <label>Last name</label>
-                    <input type="text" placeholder="Smitherton">
-                </div>
-                <div class="form-group">
-                    <label>Email address</label>
-                    <input type="email" placeholder="email@janesfakedomain.net">
-                </div>
-                <div class="form-group">
-                    <label>Forum/Media ID</label>
-                    <input type="text" placeholder="123456789">
-                </div>
-                <div class="form-group">
-                    <label>Your message</label>
-                    <textarea placeholder="Enter your question or message"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Submit</button>
-            </form>
-        </section>
 
         <section class="forums-section">
             <h2>Our Most Popular Forums!</h2>
             <div class="forum-grid">
-                <div class="forum-item">
-                    <h3>A Header</h3>
-                    <p>Subhead</p>
-                </div>
-                <div class="forum-item">
-                    <h3>A Header</h3>
-                    <p>Subhead</p>
-                </div>
-                <div class="forum-item">
-                    <h3>A Header</h3>
-                    <p>Subhead</p>
-                </div>
-                <div class="forum-item">
-                    <h3>A Header</h3>
-                    <p>Subhead</p>
-                </div>
-                <div class="forum-item">
-                    <h3>A Header</h3>
-                    <p>Subhead</p>
-                </div>
-                <div class="forum-item">
-                    <h3>A Header</h3>
-                    <p>Subhead</p>
-                </div>
+                {% for room in popular_rooms %}
+                    <div class="forum-item">
+                        <h3>{{ room.name }}</h3>
+                        <p>{{ room.description|default:"No description available." }}</p>
+                        <p><strong>Participants:</strong> {{ room.participants.count }}</p>
+                        <a href="{% url 'room' room.id %}">View Forum</a>
+                    </div>
+                {% empty %}
+                    <p>No forums found.</p>
+                {% endfor %}
             </div>
         </section>
+        
 
-        <section class="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            <!-- FAQ content would go here -->
-        </section>
+        <div id="contact-faq-wrapper">
+            <section class="contact-section">
+                <h2>Have a question or complaint?</h2>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label>First name</label>
+                        <input type="text" placeholder="Jane">
+                    </div>
+                    <div class="form-group">
+                        <label>Last name</label>
+                        <input type="text" placeholder="Smitherton">
+                    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" placeholder="email@janesfakedomain.net">
+                    </div>
+                    <div class="form-group">
+                        <label>Forum/Media ID</label>
+                        <input type="text" placeholder="123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Your message</label>
+                        <textarea placeholder="Enter your question or message"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </section>
+        
+            <section class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                <!-- FAQ content would go here -->
+            </section>
+        </div>
+        
     </main>
 
     <footer class="main-footer">
