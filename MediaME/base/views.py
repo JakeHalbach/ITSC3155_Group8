@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen as uReq
 import requests
 # Create your views here.
-"""
+
 ##populate database
 def trim(title):
     for i, char in enumerate(title):
@@ -17,16 +17,17 @@ def trim(title):
             return index+2
     return 0
 ##Media.objects.create(title = movies)
-
+"""
 def populate(media_types):
     session = requests.Session()
-    my_url = 'https://www.imdb.com/search/title/?genres='
-    index = len(Genre.objects.values_list())
-    genres = Genre.objects.values()
-    #for i, genre in range(index):
+    index = len(Genre.objects.values_list('name', flat = True))-1
+    genres = []
+    for i in range(index):
+        genres.append(str(Genre.objects.values_list('name', flat = True)[i]))
+    for genre in genres:
         #genre = Genre.objects.filter(id=1).first()
-     
-       my_url += genre.lower()
+        my_url = 'https://www.imdb.com/search/title/?genres='
+        my_url += genre.lower()
         response = session.get(my_url, headers={'User-Agent': 'Mozilla/5.0'})
         soup =  BeautifulSoup(response.text, 'lxml')
         medias = soup.find_all('li', class_="ipc-metadata-list-summary-item")
@@ -34,12 +35,14 @@ def populate(media_types):
         for media in medias[:10]:
             index = trim(media.find('h3', class_ = 'ipc-title__text').text)
             title = media.find('h3', class_ = 'ipc-title__text').text[index:]
+            #print(title)
             description = media.find('div', class_ ="ipc-html-content-inner-div").text
-            if 'TV' in (title.find('span', class_="sc-5179a348-7 idrYgr dli-title-metadata-item").text):
-                type = media_types.filter(id=2).first()
+            #print(description)
+            if 'TV' in (media.find('div', class_="sc-5179a348-6 bnnHxo dli-title-metadata").text):
+                thype = media_types.filter(id=2).first()
             else:
-                type = media_types.filter(id=3).first()
-            Media.objects.create(title = title, description = description, media_types = type)
+                thype = media_types.filter(id=3).first()
+            Media.objects.create(title = title, description = description, media_type = thype)
     return
 """
 def impression(request):
@@ -52,7 +55,7 @@ def search_page(request):
     genres = request.GET.getlist('genre')
     media_types = Type.objects.all()
     #populate(media_types)
-    #hold = Genre.objects.filter(id=2).first()
+    #hold = str(Genre.objects.all()[len(Genre.objects.values_list('name', flat = True))-1])
     if form.is_valid():
         q = form.cleaned_data.get('q')
         genre = form.cleaned_data.get('genre')
@@ -63,7 +66,6 @@ def search_page(request):
             results = results.filter(genres=genre)
         if media_type:
             results = results.filter(media_type=media_type)
-
 
     context = {'form': form, 'results': results, 'genres': genres}
     #context = {'form': form, 'results': results, 'genres': genres, 'hold': hold}
