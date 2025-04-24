@@ -4,10 +4,44 @@ from .forms import SearchForm, RoomForm, MessageForm
 from .models import Media, Room, Message, Type, Genre
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from bs4 import BeautifulSoup
+from urllib.request import urlopen as uReq
+import requests
 # Create your views here.
+"""
+##populate database
+def trim(title):
+    for i, char in enumerate(title):
+        if char == '.':
+            index = i
+            return index+2
+    return 0
+##Media.objects.create(title = movies)
 
+def populate(media_types):
+    session = requests.Session()
+    my_url = 'https://www.imdb.com/search/title/?genres='
+    index = len(Genre.objects.values_list())
+    genres = Genre.objects.values()
+    #for i, genre in range(index):
+        #genre = Genre.objects.filter(id=1).first()
+     
+       my_url += genre.lower()
+        response = session.get(my_url, headers={'User-Agent': 'Mozilla/5.0'})
+        soup =  BeautifulSoup(response.text, 'lxml')
+        medias = soup.find_all('li', class_="ipc-metadata-list-summary-item")
 
-
+        for media in medias[:10]:
+            index = trim(media.find('h3', class_ = 'ipc-title__text').text)
+            title = media.find('h3', class_ = 'ipc-title__text').text[index:]
+            description = media.find('div', class_ ="ipc-html-content-inner-div").text
+            if 'TV' in (title.find('span', class_="sc-5179a348-7 idrYgr dli-title-metadata-item").text):
+                type = media_types.filter(id=2).first()
+            else:
+                type = media_types.filter(id=3).first()
+            Media.objects.create(title = title, description = description, media_types = type)
+    return
+"""
 def impression(request):
     popular_rooms = Room.objects.annotate(num_participants=Count('participants')).order_by('-num_participants')[:6]
     return render(request, 'base/impression.html', {'popular_rooms': popular_rooms})
@@ -17,7 +51,8 @@ def search_page(request):
     results = Media.objects.all()
     genres = request.GET.getlist('genre')
     media_types = Type.objects.all()
-    
+    #populate(media_types)
+    #hold = Genre.objects.filter(id=2).first()
     if form.is_valid():
         q = form.cleaned_data.get('q')
         genre = form.cleaned_data.get('genre')
@@ -31,6 +66,7 @@ def search_page(request):
 
 
     context = {'form': form, 'results': results, 'genres': genres}
+    #context = {'form': form, 'results': results, 'genres': genres, 'hold': hold}
     
     return render(request, 'base/search.html', context)
 
@@ -97,3 +133,4 @@ def homePage(request):
 
     context = {'user_rooms': user_rooms}
     return render(request, 'base/home.html', context)
+

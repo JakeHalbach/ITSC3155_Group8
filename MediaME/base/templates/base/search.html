@@ -3,33 +3,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-<!-- <div class="search-box">
-    <form class="search-form" method="get" action="{% url 'search_page' %}">
-        {{ form.as_p }}
-        <button type="submit">Search</button>
-    </form>
-</div>
-    <h2>Results</h2>
-    <div class="resultdisplay">
-        <ul>
-            <div class="result-element">
-                {% for media in results %}
-                    
-                    
-                    <li>
-                        {% if media.poster %}
-                        <a href="{% url 'title_page' media.id %}"><img src="{{media.poster.url}}" alt="poster" class="result-poster"></a>
-                        {% endif %}
-                        {{ media.title }} - {{ media.creator }} - {{ media.media_type }} - {{ media.genres }}
-                    </li>
-                {% empty %}
-                    <li>No results found</li>
-                {% endfor %}
-            </div>
-            
-        </ul>
-    </div> -->
+
 
 <div class="search-header">
     <div class="search-header-left">
@@ -49,7 +23,7 @@
 
         <!-- Sort By -->
         <div class="filter-column">
-            <h4>Sort By:</h4>
+            <h4>Sort By: {{hold}}</h4>
             <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}sort=title" class="filter-button">Title</a>
             <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}sort=date" class="filter-button">Date</a>
         </div>
@@ -97,7 +71,7 @@
     <ul>
         {% for media in results %}
             <li>
-                <a href="{% url 'title_page' media.id %}">{{ media.title }}</a> — {{ media.media_type.name }}
+                <a href="{% url 'title-page' media.id %}">{{ media.title }}</a> — {{ media.media_type.name }}
                 — {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
             </li>
         {% empty %}
