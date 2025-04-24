@@ -21,6 +21,22 @@
         <img src="{{media.poster.url}}" alt="{{media.title}}" class="center">
         {% endif %}
         <h2>{{media.title}}</h2>
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'toggle-media-favorite' media.id %}">
+                {% csrf_token %}
+                <button type="submit" class="favorite-button">
+                    {% if media.is_favorited user %}
+                        ★ Unfavorite
+                    {% else %}
+                        ☆ Favorite
+                    {% endif %}
+                </button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Log in</a> to favorite this media.</p>
+        {% endif %}
+
         <br>
         <p> {{media.description}}
         </p>

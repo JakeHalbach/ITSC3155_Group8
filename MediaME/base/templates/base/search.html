@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
 <!-- <div class="search-box">
-    <form class="search-form" method="get" action="{% url 'search_page' %}">
+    <form class="search-form" method="get" action="{% url 'search-page' %}">
         {{ form.as_p }}
         <button type="submit">Search</button>
     </form>
@@ -36,7 +36,7 @@
         <h2>Filter search results:</h2>
     </div>
     <div class="search-header-right">
-        <form class="search-form" method="get" action="{% url 'search_page' %}">
+        <form class="search-form" method="get" action="{% url 'search-page' %}">
             <input type="text" name="q" placeholder="Search Title, Genre, Media" value="{{ request.GET.q }}" class="search-box-input">
             <button type="submit">Search</button>
         </form>
@@ -97,7 +97,10 @@
     <ul>
         {% for media in results %}
             <li>
-                <a href="{% url 'title_page' media.id %}">{{ media.title }}</a> — {{ media.media_type.name }}
+                {% if media.poster %}
+                    <a href="{% url 'title-page' media.id %}"><img src="{{media.poster.url}}" alt="poster" class="result-poster"></a>
+                {% endif %}
+                <a href="{% url 'title-page' media.id %}">{{ media.title }}</a> — {{ media.media_type.name }}
                 — {% for genre in media.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
             </li>
         {% empty %}
@@ -105,7 +108,6 @@
         {% endfor %}
     </ul>
 </div>
-
 
 
 {% endblock %}

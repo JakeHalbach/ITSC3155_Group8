@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<main class="container">
+<main class="home-container">
   <section class="welcome-section">
     <h2>Welcome, {{ request.user.username }}</h2>
   </section>
@@ -26,10 +26,70 @@
     {% else %}
       <p class="no-rooms-msg">You haven't joined or created any rooms yet.</p>
     {% endif %}
-
-    
-
     <a href="{% url 'create-room' %}" class="cta-link">Create New Room</a>
   </section>
+
+  <div class="section">
+    <h2>Featured Titles</h2>
+    <div class="horizontal-scroll">
+      {% for media in popular_medias %}
+        <div class="media-card">
+          <a href="{% url 'title-page' media.id %}">
+            <img src="{{ media.poster.url }}" alt="{{ media.title }}">
+            <p>{{ media.title }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Favorites</h2>
+    <div class="horizontal-scroll">
+      {% for media in favorited_medias %}
+        <div class="media-card">
+          <a href="{% url 'title-page' media.id %}">
+            <img src="{{ media.poster.url }}" alt="{{ media.title }}">
+            <p>{{ media.title }}</p>
+          </a>
+        </div>
+      {% empty %}
+        <p>You haven’t favorited any medias yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="two-column">
+  
+    <div class="column forums-column">
+      <h2>Forums</h2>
+      <div class="vertical-scroll">
+        {% for forum in forums %}
+          <div class="forum-card">
+            <a href="{% url 'title-page' media.id %}">
+              <h4>{{ forum.title }}</h4>
+              <p>{{ forum.description|truncatechars:80 }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="column recommendations-column">
+      <h2>Recommended</h2>
+      <div class="vertical-scroll">
+        {% for media in recommended_medias %}
+          <div class="media-card-vertical">
+            <a href="{% url 'title-page' media.id %}">
+              <img src="{{ media.poster.url }}" alt="{{ media.title }}">
+              <p>{{ media.title }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+  
 </main>
 {% endblock %}

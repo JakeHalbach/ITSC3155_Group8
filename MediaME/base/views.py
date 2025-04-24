@@ -12,6 +12,14 @@ def impression(request):
     popular_rooms = Room.objects.annotate(num_participants=Count('participants')).order_by('-num_participants')[:6]
     return render(request, 'base/impression.html', {'popular_rooms': popular_rooms})
 
+@login_required(login_url='login')
+def homePage(request):
+    user_rooms = Room.objects.filter(host=request.user) | Room.objects.filter(participants=request.user)
+    user_rooms = user_rooms.distinct()
+
+    context = {'user_rooms': user_rooms}
+    return render(request, 'base/home.html', context)
+
 def search_page(request):
     form = SearchForm(request.GET)
     results = Media.objects.all()
@@ -83,17 +91,18 @@ def room_tab(request, pk, tab):
             msg.media = media
             msg.save()
             room.participants.add(request.user)
-            return redirect('room-tab', pk=media.id, topic=topic)
+            return redirect('room-tab', pk=media.id, tab=tab)
     else:
         form = MessageForm()
 
     context = {'media':media, 'room':room, 'messages':messages, 'form':form}
     return render(request, 'base/room_tab.html', context)
 
-@login_required(login_url='login')
-def homePage(request):
-    user_rooms = Room.objects.filter(host=request.user) | Room.objects.filter(participants=request.user)
-    user_rooms = user_rooms.distinct()
-
-    context = {'user_rooms': user_rooms}
-    return render(request, 'base/home.html', context)
+@login_required
+def toggle_favorite(request, pk):
+    media = get_object_or_404(Media, id=pk)
+    if media.is_favorited(request.user):
+        media.favorited.remove(request.user)
+    else:
+        media.favorited.add(request.user)
+    return redirect('title_page', pk=media.id)

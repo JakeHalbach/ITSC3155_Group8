@@ -2,12 +2,12 @@
     <ul class="nav-list">
         {% if request.user.is_authenticated %}
             <li><a href="{% url 'user-profile' pk=request.user.id %}" class="nav-btn">Profile</a></li>
-            <li><a href="{% url 'search_page' %}" class="nav-btn">Search</a></li>
+            <li><a href="{% url 'search-page' %}" class="nav-btn">Search</a></li>
             <li><a href="{% url 'home' %}" class="nav-btn">Home</a></li>
             <li><a href="{% url 'logout' %}" class="nav-btn logout-btn">Logout</a></li>
         {% else %}
             <li><a href="{% url 'login' %}" class="nav-btn">Login</a></li>
-            <li><a href="{% url 'signup_step1' %}" class="nav-btn">Sign Up</a></li>
+            <li><a href="{% url 'signup-step1' %}" class="nav-btn">Sign Up</a></li>
         {% endif %}
     </ul>
 
