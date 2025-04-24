@@ -1,20 +1,25 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .forms import SignupFormStep1, SignupFormStep2
 from .models import Profile
+from base.models import Media
+
 
 # Create your views here.
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
     profile = user.profile
-    context = {'user': user, 'profile': profile}
+    favorites = Media.objects.filter(favorited=profile.user)
+    friends = profile.friends.all()
+    context = {'user': user,'profile': profile,'favorites': favorites,'friends': friends}
     return render(request, 'accounts/profile.html', context)
 
 
@@ -84,3 +89,22 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect('home')
+
+
+@login_required
+def toggle_friend(request, user_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    target_user = get_object_or_404(User, id=user_id)
+    user_profile = request.user.profile
+    target_profile = target_user.profile
+
+    if target_user in user_profile.friends.all():
+        user_profile.friends.remove(target_user)
+        target_profile.friends.remove(request.user)
+    else:
+        user_profile.friends.add(target_user)
+        target_profile.friends.add(request.user)
+
+    return redirect('profile', pk=target_user.id)

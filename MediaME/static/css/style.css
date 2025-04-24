@@ -44,7 +44,6 @@ h3{
     
 }
 
-
 .main-container h2{
     text-align: center;
     margin-left:auto;
@@ -56,6 +55,20 @@ h3{
     margin: 10% 10%;
     border-radius: 15PX;
 }
+
+.favorite-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #c33149;
+    margin-top: 5px;
+}
+
+.favorite-button:hover {
+    color: #800080;
+}
+
 
 
 

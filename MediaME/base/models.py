@@ -25,20 +25,26 @@ class Media(models.Model):
     genres = models.ForeignKey(Genre, on_delete=models.SET_NULL, related_name='media_items', blank=True, null=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
-    poster = models.ImageField(upload_to='images/', null=True, blank=True, default='../images/images/spongeboy.jpg')
-    ##tags= 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    ##poster = models.ImageField()
+    poster = models.ImageField(upload_to='images/', null=True, blank=True, default='../images/images/spongeboy.jpg')
+    favorited = models.ManyToManyField(User, related_name='favorite_media', blank=True)
+    
     def poster_url(self):
         if self.poster and hasattr(self.poster, 'url'):
             return self.poster.url
+        
+    def is_favorited(self, user):
+        return self.favorited.filter(id=user.id).exists()
         
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.rooms.exists():
             for tab in ['reviews', 'characters', 'plot', 'visuals']:
                 Room.objects.create(media=self, tab=tab)
+
+    class Meta:
+        ordering = ['-updated', '-created']
 
     def __str__(self):
         return self.title
