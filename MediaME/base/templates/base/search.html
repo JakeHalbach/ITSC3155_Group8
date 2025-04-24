@@ -49,7 +49,7 @@
 
         <!-- Sort By -->
         <div class="filter-column">
-            <h4>Sort By:</h4>
+            <h4>Sort By: {{hold}}</h4>
             <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}sort=title" class="filter-button">Title</a>
             <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}sort=date" class="filter-button">Date</a>
         </div>
