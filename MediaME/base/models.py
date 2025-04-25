@@ -25,7 +25,7 @@ class Genre(models.Model):
 class Media(models.Model):
     title = models.CharField(max_length=200)
     creators = models.ManyToManyField(Creator, related_name='created_media', blank=True)
-    genres = genres = models.ManyToManyField(Genre, related_name='media_items', blank=True)
+    genres = models.ManyToManyField(Genre, related_name='media_items', blank=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
