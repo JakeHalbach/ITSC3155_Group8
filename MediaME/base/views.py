@@ -137,11 +137,15 @@ def room_tab(request, pk, tab):
     context = {'media':media, 'room':room, 'messages':messages, 'form':form}
     return render(request, 'base/room_tab.html', context)
 
+
 @login_required
 def toggle_favorite(request, pk):
-    media = get_object_or_404(Media, id=pk)
-    if media.is_favorited(request.user):
-        media.favorited.remove(request.user)
+    media = get_object_or_404(Media, pk=pk)
+    profile = request.user.profile
+
+    if media in profile.favorited.all():
+        profile.favorited.remove(media)
     else:
-        media.favorited.add(request.user)
-    return redirect('title_page', pk=media.id)
+        profile.favorited.add(media)
+
+    return redirect(request.META.get('HTTP_REFERER', 'home'))

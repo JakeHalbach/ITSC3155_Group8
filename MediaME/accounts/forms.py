@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Profile
 from base.models import Type, Genre
 
 class LoginForm(forms.Form):
@@ -34,3 +35,7 @@ class SignupFormStep2(forms.Form):
         help_text="Select preferred media types (use Ctrl or Command for multiple selection)"
     )
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'bio', 'genres', 'media_types']

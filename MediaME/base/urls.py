@@ -16,6 +16,6 @@ urlpatterns = [
     
     path('media/<int:pk>/<str:tab>/', views.room_tab, name='room-tab'),
     
-    path('media/<int:media_id>/favorite/', views.toggle_favorite, name='toggle-media-favorite'),
+    path('media/<int:pk>/favorite/', views.toggle_favorite, name='toggle-favorite'),
 
 ]

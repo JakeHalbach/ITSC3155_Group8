@@ -305,6 +305,7 @@ h2 {
     }
 }
 
+
 /* Auth Pages (Login & Signup) */
 .auth-container {
     max-width: 400px;
@@ -371,6 +372,7 @@ h2 {
     background-color: #ddd;
 }
 
+
 /* Navbar Styling */
 .navbar {
     margin-top: 15px;
@@ -380,7 +382,6 @@ h2 {
     list-style: none;
     padding-left: 0;
     display: flex;
-    justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
     margin: 0;
@@ -413,8 +414,165 @@ h2 {
     background-color: #a93226;
 }
 
-/* Rooms Styling */
 
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.settings-container {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #555;
+}
+
+.settings-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.settings-menu a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+.settings-menu a:hover {
+    background-color: #f4f4f4;
+}
+
+
+
+
+/* Room Tab */
+.message-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message-profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-container p {
+    margin: 0;
+}
+
+
+
+
+/* Profile Page */
+main {
+    width: 80%;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.preferences, .interaction-score {
+    width: 45%;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.profile-header {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #555;
+}
+.bio {
+    margin-top: 10px;
+    font-style: italic;
+    color: #777;
+}
+.media {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.my-media, .my-favorites {
+    width: 45%;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.friends {
+    margin-top: 30px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.friend-profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+
+
+/* Media Component */
+.heart-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: red;
+}
+
+
+
+
+
+
+
+
+
+
+/* Rooms Styling */
 .room-list {
     list-style: none;
     padding-left: 0;
@@ -484,5 +642,3 @@ h2 {
     font-style: italic;
     color: #666;
 }
-
-

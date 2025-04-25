@@ -1,83 +1,8 @@
 {% extends 'main.html'%}
 
+{% load static %}
+
     {% block content %}
-    <style>
-        main {
-            width: 80%;
-            margin: 30px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .profile-content {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .preferences, .interaction-score {
-            width: 45%;
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .profile-header {
-            text-align: center;
-            margin-top: 20px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #555;
-        }
-        .bio {
-            margin-top: 10px;
-            font-style: italic;
-            color: #777;
-        }
-        h2 {
-            color: #333;
-            border-bottom: 2px solid #555;
-            padding-bottom: 5px;
-            text-align: left;
-        }
-        .media-favorites {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-        .my-media, .my-favorites {
-            width: 45%;
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .friends {
-            margin-top: 30px;
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            text-align: center;
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
     <main>
         <div class="profile-content">
             <div class="preferences">
@@ -100,10 +25,15 @@
             </div>
 
             <div class="profile-header">
-                <img src="{#{ user.profile.image.url }#}" alt="Profile Picture" class="profile-pic">
+                {% if profile.image %}
+                    <img src="{{ profile.image.url }}" class="profile-pic" alt="Profile Picture">
+                {% else %}
+                    <img src="{{ MEDIA_URL }}images/avatar.png" class="profile-pic" alt="Default Avatar">
+                {% endif %}
                 <p class="bio">{{ user.profile.bio }}</p>
+                
                 {% if request.user != profile.user %}
-                    <form method="post" action="{% url 'toggle_friend' profile.user.id %}">
+                    <form method="post" action="{% url 'toggle-friend' profile.user.id %}">
                         {% csrf_token %}
                         <button type="submit">
                             {% if profile.user in request.user.profile.friends.all %}
@@ -122,7 +52,9 @@
             </div>
         </div>
 
-        <div class="media-favorites">
+        
+
+        <div class="media">
             <div class="my-media">
                 <h2>My Media</h2>
                 <p>{#{ user.profile.my_media }#}</p>
@@ -144,7 +76,14 @@
             <h2>Friends</h2>
             <p>
                 {% for friend in friends %}
-                    <a href="{% url 'profile' friend.id %}">{{ friend.username }}</a>{% if not forloop.last %}, {% endif %}
+                    <a href="{% url 'user-profile' friend.id %}">
+                        {% if friend.profile.image %}
+                            <img src="{{ friend.profile.image.url }}" alt="{{ friend.username }}'s profile picture" class="friend-profile-pic">
+                        {% else %}
+                            <img src="{% static 'images/avatar.png' %}" alt="Default avatar" class="friend-profile-pic">
+                        {% endif %}
+                        {{ friend.username }}
+                    </a>{% if not forloop.last %}, {% endif %}
                 {% empty %}
                     No friends added yet.
                 {% endfor %}

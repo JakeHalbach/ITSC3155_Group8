@@ -7,22 +7,25 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
 class Creator(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
-    
+
+
 class Genre(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
+
 class Media(models.Model):
     title = models.CharField(max_length=200)
     creators = models.ManyToManyField(Creator, related_name='created_media', blank=True)
-    genres = models.ForeignKey(Genre, on_delete=models.SET_NULL, related_name='media_items', blank=True, null=True)
+    genres = models.ManyToManyField(Genre, related_name='media_items', blank=True)
     media_type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
@@ -78,7 +81,8 @@ class Room(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -86,7 +90,6 @@ class Message(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
-
     class Meta:
         ordering = ['-updated', '-created']
 

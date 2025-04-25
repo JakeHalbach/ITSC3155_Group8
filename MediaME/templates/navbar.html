@@ -1,15 +1,24 @@
 <nav class="navbar">
-    <ul class="nav-list">
+    <div class="nav-container">
+        <ul class="nav-list">
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'user-profile' pk=request.user.id %}" class="nav-btn">Profile</a></li>
+                <li><a href="{% url 'search-page' %}" class="nav-btn">Search</a></li>
+                <li><a href="{% url 'home' %}" class="nav-btn">Home</a></li>
+                <!-- <li><a href="{% url 'logout' %}" class="nav-btn logout-btn">Logout</a></li> -->
+            {% else %}
+                <li><a href="{% url 'login' %}" class="nav-btn">Login</a></li>
+                <li><a href="{% url 'signup-step1' %}" class="nav-btn">Sign Up</a></li>
+            {% endif %}
+        </ul>
         {% if request.user.is_authenticated %}
-            <li><a href="{% url 'user-profile' pk=request.user.id %}" class="nav-btn">Profile</a></li>
-            <li><a href="{% url 'search-page' %}" class="nav-btn">Search</a></li>
-            <li><a href="{% url 'home' %}" class="nav-btn">Home</a></li>
-            <li><a href="{% url 'logout' %}" class="nav-btn logout-btn">Logout</a></li>
-        {% else %}
-            <li><a href="{% url 'login' %}" class="nav-btn">Login</a></li>
-            <li><a href="{% url 'signup-step1' %}" class="nav-btn">Sign Up</a></li>
+            <div class="settings-container">
+                <img  src="{% if request.user.profile.image and request.user.profile.image.url != '/images/avatar.png' %}{{ request.user.profile.image.url }}{% else %}{{ MEDIA_URL }}images/avatar.png{% endif %}" class="nav-profile-pic" onclick="toggleSettingsMenu()" alt="Profile Picture">
+                <div class="settings-menu" id="settingsMenu">
+                    <a href="{% url 'edit-profile' %}">Edit Profile</a>
+                    <a href="{% url 'logout' %}">Log Out</a>
+                </div>
+            </div>
         {% endif %}
-    </ul>
-
-    {# <a href="{% url 'settings' %}">Settings</a> #}
+    </div>
 </nav>

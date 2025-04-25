@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('profile/<str:pk>', views.userProfile, name="user-profile"),
+    path('edit-profile/', views.edit_profile, name='edit-profile'),
+
     path('signup/step1/', views.signup_step1, name = 'signup-step1'),
     path('signup/step2/', views.signup_step2, name = 'signup-step2'),
 
@@ -10,4 +12,6 @@ urlpatterns = [
     path('logout/', views.logout_page, name = 'logout'),
 
     path('toggle-friend/<int:user_id>/', views.toggle_friend, name='toggle-friend'),
+
+
 ]
