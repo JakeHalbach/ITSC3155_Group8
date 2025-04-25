@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .forms import SignupFormStep1, SignupFormStep2
+from .forms import SignupFormStep1, SignupFormStep2, ProfileForm
 from .models import Profile
 from base.models import Media
 
@@ -31,7 +31,7 @@ def signup_step1(request):
             request.session['username'] = form.cleaned_data['username']
             request.session['email'] = form.cleaned_data['email']
             request.session['password'] = form.cleaned_data['password']
-            return redirect('signup_step2')
+            return redirect('signup-step2')
     else:
         form = SignupFormStep1()
     return render(request, 'accounts/signup_step1.html', {'form': form})
@@ -108,3 +108,13 @@ def toggle_friend(request, user_id):
         target_profile.friends.add(request.user)
 
     return redirect('profile', pk=target_user.id)
+
+
+@login_required
+def edit_profile(request):
+    profile = request.user.profile
+    form = ProfileForm(request.POST or None, request.FILES or None, instance=profile)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('user-profile', pk=request.user.id)
+    return render(request, 'accounts/edit_profile.html', {'form': form})

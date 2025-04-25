@@ -1,11 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
 <h2>{{ media.title }} - {{ room.topic|capfirst }}</h2>
 
 <div>
     {% for message in messages %}
-        <p><strong>{{ message.user.username }}</strong>: {{ message.content }}</p>
+        <div class="message-container">
+            <a href="{% url 'user-profile' pk=message.user.id %}">
+                <img src="{% if message.user.profile.image %}{{ message.user.profile.image.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" alt="{{ message.user.username }}'s Profile Picture" class="message-profile-pic"></a>
+            <p><strong>{{ message.user.username }}</strong>: {{ message.content }}</p>
+        </div>
     {% empty %}
         <p>No messages yet.</p>
     {% endfor %}
+
 </div>
 
 {% if user.is_authenticated %}
@@ -17,3 +27,5 @@
 {% else %}
     <p><a href="{% url 'login' %}">Login</a> to post a message.</p>
 {% endif %}
+
+{% endblock %}

@@ -2,6 +2,8 @@ body {
     padding: 20px;
 }
 
+/* Title Page */
+
 h3{
     text-align: center;
 }
@@ -72,94 +74,7 @@ h3{
 
 
 
-/* SEARCH
-
-.search-form{
-    background-color: #bdbdbd;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 5% 10%;
-    margin: 5%;
-    border-radius: 10px;
-}
-.search-form input[type="text"], .search-form textarea{
-    
-}
-.search-form label{
- font: black;
- font-size: large;
- font-weight: 900;
- display: block;
-}
-.q_p{
- display: block;
- background-color:antiquewhite;
-}
-.genre_p{
-    background-color:antiquewhite; 
-    border-radius: 10px;
-}
-.type_p{
-    display: block;
-    background-color:antiquewhite;
-    border-radius: 10px;
-}
-.search-box{
-   
-}
-
-.result-poster{
-    width: 80%;
-    background: none;
-}
-.result-poster:hover{
-    background: aqua;
-}
-
-
-
-.result-element{
-    display:grid;
-    grid-column: 2;
-    grid-template-columns: 1fr 1fr ;
-}
-
-
-.result-element li{
-    display: grid;
-    grid-row: 1fr 4fr;
-    padding: 10%;
-    margin: 10%;
-    background-color: #bdbdbd;
-    border-radius: 15px;
-    list-style: none;
-    text-align: center;
-    
-    display:grid;
-    width: 49%;
-    background-color: #bdbdbd;
-    grid-template-columns: 1fr 4fr;
-    border-color: black;
-    border: 12px;
-    list-style-type: none;
-        margin-top:0;
-        padding-left: 0;
-        border: 12px solid orangered;
-    vertical-align: top;
-    text-align: center;
-    border-color: black;
-    border: 12px;
-    padding:20px;
-    background-color: #6d5656;
-    padding: 20px;
-    background-color: #bdbdbd;
-    display:inline-block;
-    list-style: none;
-    padding: 15px;
-    border: 2px solid #100b0b;
-    border-radius: 4px;
-    transition: transform 0.3s, box-shadow 0.3s;
-} */
+/* SEARCH */
 
 
 .search-header {

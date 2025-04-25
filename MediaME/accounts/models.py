@@ -3,13 +3,17 @@ from django.contrib.auth.models import User
 from base.models import Type, Media, Genre
 
 # Create your models here.
+
+def user_directory_path(instance, filename):
+    return f'profile_pics/user_{instance.user.id}/{filename}'
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
+    image = models.ImageField(upload_to=user_directory_path, default='images/avatar.png', blank=True)
     genres = models.ManyToManyField(Genre, blank=True)
     media_types = models.ManyToManyField(Type, blank=True)
-    favorite_titles = models.ManyToManyField(
-        Media, related_name='favorites', blank=True)
+    favorite_titles = models.ManyToManyField(Media, related_name='favorites', blank=True)
     interaction_score = models.IntegerField(default=0)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
 

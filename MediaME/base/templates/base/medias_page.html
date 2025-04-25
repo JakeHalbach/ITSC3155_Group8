@@ -1,12 +1,17 @@
-{% extends 'main.html' %}
-
-{% block content %}
-    <h1>All Media</h1>
     <ul>
         {% for media in medias %}
             <li>
                 <a href="{% url 'title-page' pk=media.id %}">{{ media.title }}</a>
+                <form method="POST" action="{% url 'toggle-favorite' media.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="heart-btn">
+                        {% if media in request.user.profile.favorited.all %}
+                            ♥ 
+                        {% else %}
+                            ♡ 
+                        {% endif %}
+                    </button>
+                </form>
             </li>
         {% endfor %}
     </ul>
-{% endblock %}
