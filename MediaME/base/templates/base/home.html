@@ -1,33 +1,48 @@
-{% extends 'main.html' %}
+{% extends 'main.html' %} 
+
+{% load static %}  
+
 
 {% block content %}
-<main class="container">
-  <section class="welcome-section">
-    <h2>Welcome, {{ request.user.username }}</h2>
-  </section>
+<div class="container mt-5">
+    <!-- Welcome Header -->
+    <div class="welcome-header text-center mb-5">
+        <h1 class="display-4">Welcome, {{ request.user.username }}!</h1>
+        <p class="lead text-muted">Discover and manage your media rooms</p>
+    </div>
 
-  <section class="user-rooms-section">
-    <h3>Your Rooms</h3>
-    {% if user_rooms %}
-      <ul class="room-list">
-        {% for room in user_rooms %}
-          <li class="room-item">
-            <a href="{% url 'room-tab' room.media.id room.tab %}" class="room-link">
-              {{ room.name }} ({{ room.tab }})
+    <!-- Room Dashboard -->
+    <div class="room-dashboard">
+        <!-- Empty State (if no rooms) -->
+        {% if not rooms %}
+        <div class="empty-state text-center p-5 rounded-lg bg-light">
+            <img src="{% static 'images/empty-room.svg' %}" alt="No rooms" class="mb-4" width="120">
+            <h3 class="mb-3">You haven't joined any rooms yet</h3>
+            <p class="text-muted mb-4">Start by creating a new room or exploring public ones</p>
+            <a href="{% url 'create-room' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus-circle mr-2"></i> Create New Room
             </a>
-            {% if room.host == request.user %}
-              <span class="host-badge">You are the host</span>
-              <a href="{% url 'Edit' room.id %}" class="edit-btn">Edit</a>
-              <a href="{% url 'Delete' room.id %}" class="delete-btn">Delete</a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="no-rooms-msg">You haven't joined or created any rooms yet.</p>
-    {% endif %}
-
-    <a href="{% url 'create-room' %}" class="cta-link">Create New Room</a>
-  </section>
-</main>
+        </div>
+        {% else %}
+        <!-- Room Grid (if rooms exist) -->
+        <div class="row">
+            {% for room in rooms %}
+            <div class="col-md-4 mb-4">
+                <div class="room-card card h-100 shadow-sm">
+                    <img src="{{ room.thumbnail.url }}" class="card-img-top" alt="{{ room.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ room.name }}</h5>
+                        <p class="card-text text-muted">{{ room.description|truncatechars:100 }}</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a href="{% url 'room_detail' room.id %}" class="btn btn-outline-primary btn-sm">Enter Room</a>
+                        <span class="float-right text-muted small">{{ room.member_count }} members</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

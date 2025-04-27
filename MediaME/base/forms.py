@@ -3,12 +3,25 @@ from base.models import Genre, Type, Media, Room, Message
 from django import forms
 
 
+from django import forms
+from .models import Room, Media  # Make sure to import your Media model
+
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ['media', 'description']
+        fields = ['media', 'tab', 'description']
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 4}),
+            'media': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'tab': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Describe what this room will discuss...'
+            }),
         }
 
 

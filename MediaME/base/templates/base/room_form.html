@@ -1,18 +1,47 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
+<div class="media-container">
+    <div class="media-header">
+        <h1>Create New Room</h1>
+        <p>Start a new discussion about your favorite media</p>
+    </div>
 
-
-<div>
-    <form method="POST" action="">
-
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Create Room</button>
-    </form>
+    <div class="form-container">
+        <form method="POST" class="media-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_media">Related Media</label>
+                <select name="media" id="id_media" class="form-input" required>
+                    <option value="">-- Select Media --</option>
+                    {% for media in popular_media %}
+                    <option value="{{ media.id }}">{{ media.title }}</option>
+                    {% empty %}
+                    <option value="" disabled>No media available</option>
+                    {% endfor %}
+                </select>
+                <p class="form-hint">What is this room about?</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_tab">Discussion Type</label>
+                <select name="tab" id="id_tab" class="form-input" required>
+                    <option value="">-- Select Type --</option>
+                    <option value="reviews">Reviews</option>
+                    <option value="characters">Characters</option>
+                    <option value="plot">Plot</option>
+                    <option value="visuals">Visuals</option>
+                </select>
+                <p class="form-hint">What will people discuss?</p>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Create Room</button>
+                <a href="{% url 'home' %}" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
-
-<a href="{% url 'home' %}">Return Home</a>
-
-
-{% endblock content %}
+{% endblock %}

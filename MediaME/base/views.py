@@ -32,19 +32,25 @@ def search_page(request):
     return render(request, 'base/search.html', context)
 
 
+
+@login_required
 def create_room(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect('home')
-    else:
-        form = RoomForm()
-
-    context = {'form': form}
-
-    return render(request, 'base/room_form.html', context)
-
+    
+    # Get 10 most recently updated media items
+    popular_media = Media.objects.order_by('-updated')[:10]
+    
+    return render(request, 'base/room_form.html', {
+        'popular_media': popular_media
+    })
+    
+    
 def titlePage(request, pk):
     media= Media.objects.get(id = pk)
     ##messages.error(request, title)
