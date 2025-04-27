@@ -17,14 +17,14 @@ def trim(title):
             return index+2
     return 0
 ##Media.objects.create(title = movies)
-"""
+
 def populate(media_types):
     session = requests.Session()
     index = len(Genre.objects.values_list('name', flat = True))-1
     genres = []
     for i in range(index):
         genres.append(str(Genre.objects.values_list('name', flat = True)[i]))
-    for genre in genres:
+    for i, genre in enumerate(genres):
         #genre = Genre.objects.filter(id=1).first()
         my_url = 'https://www.imdb.com/search/title/?genres='
         my_url += genre.lower()
@@ -42,9 +42,9 @@ def populate(media_types):
                 thype = media_types.filter(id=2).first()
             else:
                 thype = media_types.filter(id=3).first()
-            Media.objects.create(title = title, description = description, media_type = thype)
+            Media.objects.create(title = title, description = description, media_type = thype, genres = Genre.objects.get(name=genre))
     return
-"""
+
 def impression(request):
     popular_rooms = Room.objects.annotate(num_participants=Count('participants')).order_by('-num_participants')[:6]
     return render(request, 'base/impression.html', {'popular_rooms': popular_rooms})
@@ -54,8 +54,7 @@ def search_page(request):
     results = Media.objects.all()
     genres = request.GET.getlist('genre')
     media_types = Type.objects.all()
-    #populate(media_types)
-    #hold = str(Genre.objects.all()[len(Genre.objects.values_list('name', flat = True))-1])
+    ##populate(media_types)
     if form.is_valid():
         q = form.cleaned_data.get('q')
         genre = form.cleaned_data.get('genre')
@@ -90,7 +89,8 @@ def title_page(request, pk):
     media = Media.objects.get(id=pk)
     rooms = media.rooms.all()
 
-    active_participants = Room.objects.filter(media=media).values('user__username').annotate(post_count=Count('posts')).order_by('-post_count')[:5]
+    active_participants = ""
+    #Room.objects.filter(media=media).values('user__username').annotate(post_count=Count('posts')).order_by('-post_count')[:5]
 
     if request.method == 'POST':
         form = MessageForm(request.POST)
