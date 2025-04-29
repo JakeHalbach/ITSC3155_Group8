@@ -44,7 +44,7 @@ def populate(media_types):
                 thype = media_types.filter(id=2).first()
             else:
                 thype = media_types.filter(id=3).first()
-            Media.objects.create(title = title, description = description, media_type = thype)
+            Media.objects.create(title = title, description = description, media_type = thype, genres = Genre.objects.get(name=genre))
     return
 # """
 
