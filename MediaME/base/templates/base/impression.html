@@ -14,6 +14,7 @@
             align-items: center;
         }
     </style>
+
 </head>
 <body>
     <header class="main-header">
@@ -50,18 +51,19 @@
             </div>
         </section>
 
-        <section class="forums-section">
+        <section class="forum-section">
             <h2>Our Most Popular Forums!</h2>
             <div class="forum-grid">
-                {% for room in popular_rooms %}
+                {% for media in popular_rooms %}
                     <div class="forum-item">
-                        <h3>{{ room.name }}</h3>
-                        <p>{{ room.description|default:"No description available." }}</p>
-                        <p><strong>Participants:</strong> {{ room.participants.count }}</p>
-                        <a href="{% url 'room' room.id %}">View Forum</a>
+                        {% if media.poster %}
+                            <img src="{{ media.poster.url }}" alt="{{ media.title }} Poster" class="forum-poster">
+                        {% endif %}
+                        <a href="{% url 'title-page' media.id %}"><h3>{{ media.title }}</h3></a>
+                        <p>{{ media.description|default:"No description available." }}</p>
                     </div>
                 {% empty %}
-                    <p>No forums found.</p>
+                    <p>No popular media found.</p>
                 {% endfor %}
             </div>
         </section>
