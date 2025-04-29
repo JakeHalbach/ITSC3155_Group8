@@ -44,7 +44,8 @@ def populate(media_types):
                 thype = media_types.filter(id=2).first()
             else:
                 thype = media_types.filter(id=3).first()
-            Media.objects.create(title = title, description = description, media_type = thype, genres = Genre.objects.get(name=genre))
+            instance = Media.objects.create(title = title, description = description, media_type = thype)
+            instance.genres.set(Genre.objects.filter(name=genre))
     return
 # """
 
@@ -76,7 +77,7 @@ def search_page(request):
     results = Media.objects.all()
     genres = request.GET.getlist('genre')
     media_types = Type.objects.all()
-    # populate(media_types)
+    ##populate(media_types)
     #hold = str(Genre.objects.all()[len(Genre.objects.values_list('name', flat = True))-1])
     if form.is_valid():
         q = form.cleaned_data.get('q')

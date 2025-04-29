@@ -30,7 +30,7 @@ class Media(models.Model):
     description = models.TextField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    poster = models.ImageField(upload_to='images/', null=True, blank=True, default='../images/images/spongeboy.jpg')
+    poster = models.ImageField(upload_to='images/', null=True, blank=True, default='images/jakespeople.png')
     favorited = models.ManyToManyField(User, related_name='favorite_media', blank=True)
     
     def poster_url(self):
