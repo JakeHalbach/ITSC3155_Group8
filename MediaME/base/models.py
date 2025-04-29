@@ -40,11 +40,14 @@ class Media(models.Model):
     def is_favorited(self, user):
         return self.favorited.filter(id=user.id).exists()
         
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if not self.rooms.exists():
+    #         for tab in ['reviews', 'characters', 'plot', 'visuals']:
+    #             Room.objects.create(media=self, tab=tab)
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if not self.rooms.exists():
-            for tab in ['reviews', 'characters', 'plot', 'visuals']:
-                Room.objects.create(media=self, tab=tab)
 
     class Meta:
         ordering = ['-updated', '-created']
