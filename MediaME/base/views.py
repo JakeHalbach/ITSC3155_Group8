@@ -49,25 +49,20 @@ def populate(media_types):
 # """
 
 def impression(request):
-    popular_rooms = Room.objects.annotate(num_participants=Count('participants')).order_by('-num_participants')[:6]
+    popular_rooms = Media.objects.annotate(total_participants=Count('rooms__participants', distinct=True)).order_by('-total_participants')[:6]
     return render(request, 'base/impression.html', {'popular_rooms': popular_rooms})
 
 @login_required(login_url='login')
 def homePage(request):
     user_rooms = Room.objects.filter(host=request.user) | Room.objects.filter(participants=request.user)
     user_rooms = user_rooms.distinct()
-    popular_medias = Media.objects.all()[:10]
+    popular_medias = Media.objects.annotate(total_participants=Count('rooms__participants', distinct=True)).order_by('-total_participants')[:10]
     favorited_medias = request.user.profile.favorite_titles.all()
     medias = Media.objects.all()
     preferred_genres = request.user.profile.genres.all()
     recommended_medias = Media.objects.filter(genres__in=preferred_genres).distinct()
 
-    context = {
-        'user_rooms': user_rooms,
-        'popular_medias': popular_medias,
-        'favorited_medias': favorited_medias,
-        'medias': medias,
-        'recommended_medias': recommended_medias,
+    context = {'user_rooms': user_rooms,'popular_medias': popular_medias,'favorited_medias': favorited_medias,'medias': medias,'recommended_medias': recommended_medias,
     }
     return render(request, 'base/home.html', context)
 
@@ -76,7 +71,7 @@ def search_page(request):
     results = Media.objects.all()
     genres = request.GET.getlist('genre')
     media_types = Type.objects.all()
-    # populate(media_types)
+    #populate(media_types)
     #hold = str(Genre.objects.all()[len(Genre.objects.values_list('name', flat = True))-1])
     if form.is_valid():
         q = form.cleaned_data.get('q')
