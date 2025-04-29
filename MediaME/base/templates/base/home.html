@@ -64,10 +64,10 @@
     <div class="column forums-column">
       <h2>Forums</h2>
       <div class="vertical-scroll">
-        {% for forum in forums %}
+        {% for media in medias %}
           <div class="forum-card">
             <a href="{% url 'title-page' media.id %}">
-              <h4>{{ forum.title }}</h4>
+              <h4>{{ media.title }}</h4>
               <p>{{ forum.description|truncatechars:80 }}</p>
             </a>
           </div>

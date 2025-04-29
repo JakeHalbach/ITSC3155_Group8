@@ -15,6 +15,15 @@ body {
     background-color: #f9f9f9;
 }
 
+main {
+    width: 90%;
+    margin: 30px auto;
+    background: white;
+    padding: 3%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -43,7 +52,7 @@ body {
     background-color: #fff;
     color: #000;
     padding: 10px 20px;
-    margin-left: 10px; /* Adds spacing between buttons */
+    margin-left: 10px;
     border-radius: 4px;
     font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
@@ -462,35 +471,144 @@ h2 {
 
 
 /* Room Tab */
+.header-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    justify-content: center;
+}
+
+.back-button {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: absolute; 
+    left: 1rem;
+}
+
+.media-title {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.room-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.room-layout {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+}
+
+.box {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 25px;
+}
+
+.discussion-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.participants-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-column {
+    flex: 2;
+}
+
+.participants-column {
+    flex: 1;
+}
+
 .message-container {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 
-.message-profile-pic {
-    width: 30px;
-    height: 30px;
+.message-profile {
+    margin-right: 0.75rem;
+}
+
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    margin-right: 10px;
 }
 
-.message-container p {
+.message-content p {
     margin: 0;
 }
 
+.participants-column h4 {
+    margin-bottom: 1rem;
+}
+
+.participants-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.participant-item {
+    display: flex;
+    align-items: center;
+}
+
+.participant-profile {
+    margin-right: 1rem;
+}
+
+.profile-picture-small {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.participant-item span {
+    font-weight: bold;
+}
+
+.message-form {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.message-input {
+    flex: 1;
+    padding: 0.5rem;
+}
+
+.post-button {
+    padding: 0.5rem 1rem;
+}
+
+.login-message {
+    margin-top: 2rem;
+}
 
 
 
 /* Profile Page */
-main {
-    width: 80%;
-    margin: 30px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 .profile-content {
     display: flex;
     justify-content: space-between;
@@ -503,6 +621,18 @@ main {
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
+.box {
+    display: inline-block;
+    padding: 6px 10px;
+    margin: 5px 5px 0 0;
+    background-color: rgba(101,84,143);
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
 .profile-header {
     text-align: center;
     margin-top: 20px;
@@ -536,6 +666,70 @@ main {
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
+.media-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.media-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.media-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #c0392b;
+}
+
+.favorite-btn:hover {
+    color: #a93226;
+}
+
+.media-title {
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+    color: #333;
+}
+
+.media-type {
+    margin-top: 5px;
+    font-style: italic;
+    color: #666;
+}
+
+.genre-tags {
+    margin-top: 10px;
+}
+
+.genre-tag {
+    display: inline-block;
+    background-color: #e0e0e0;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 2px;
+}
+
 .friends {
     margin-top: 30px;
     background: #fff;
@@ -562,7 +756,6 @@ main {
     cursor: pointer;
     color: red;
 }
-
 
 
 
@@ -610,8 +803,7 @@ main {
     margin-left: 10px;
 }
 
-.edit-btn,
-.delete-btn {
+.edit-btn, .delete-btn {
     font-size: 0.875rem;
     padding: 6px 12px;
     margin-left: 10px;

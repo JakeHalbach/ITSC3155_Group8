@@ -7,21 +7,22 @@
         <div class="profile-content">
             <div class="preferences">
                 <h2>My Preferences</h2>
-                <p><strong>Genres:</strong> 
+                <p><strong>Genres:</strong></p> 
+                <p>
                     {% for genre in profile.genres.all %}
-                        {{ genre.name }}
+                        <span class="box">{{ genre.name }}</span>
                     {% empty %}
                         No genres selected.
                     {% endfor %}
                 </p>
-                <p><strong>Types of Media:</strong> 
+                <p><strong>Types of Media:</strong></p> 
+                <p>
                     {% for media_type in profile.media_types.all %}
-                        {{ media_type.name }}
+                        <span class="box">{{ media_type.name }}</span>
                     {% empty %}
                         No media type selected.
                     {% endfor %}
                 </p>
-                <p><strong>My Titles:</strong> {#{ user.profile.favorite_titles }#}</p>
             </div>
 
             <div class="profile-header">
@@ -47,7 +48,7 @@
             </div>
 
             <div class="interaction-score">
-                <p>Interaction Score</p>
+                <p><strong>Interaction Score</strong></p>
                 <p>{{ user.profile.interaction_score }}</p>
             </div>
         </div>
@@ -57,18 +58,56 @@
         <div class="media">
             <div class="my-media">
                 <h2>My Media</h2>
-                <p>{#{ user.profile.my_media }#}</p>
+                <div class="media-scroll">
+                    <div class="media-grid">
+                        {% for media in participated_medias %}
+                            <div class="media-box">
+                                <a href="{% url 'title-page' media.id %}" class="media-title">{{ media.title }}</a>
+                                <div class="media-type">{{ media.media_type.name }}</div>
+                                <div class="genre-tags">
+                                    {% for genre in media.genres.all %}
+                                        <span class="genre-tag">{{ genre.name }}</span>
+                                    {% empty %}
+                                        <span class="genre-tag">No genres</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>No media participation yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-
+        
             <div class="my-favorites">
                 <h2>My Favorites</h2>
-                <p>
-                    {% for favorite in favorites %}
-                        <a href="{% url 'title_page' favorite.id %}">{{ favorite.title }}</a>{% if not forloop.last %}, {% endif %}
-                    {% empty %}
-                        <p>No favorites added yet.</p>
-                    {% endfor %}
-                </p>
+                <div class="media-scroll">
+                    <div class="media-grid">
+                        {% for favorite in favorites %}
+                            <div class="media-box">
+                                <div class="media-box-header">
+                                    <a href="{% url 'title-page' favorite.id %}" class="media-title">{{ favorite.title }}</a>
+                                    <form method="POST" action="{% url 'toggle-favorite' favorite.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="favorite-btn">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="media-type">{{ favorite.media_type.name }}</div>
+                                <div class="genre-tags">
+                                    {% for genre in favorite.genres.all %}
+                                        <span class="genre-tag">{{ genre.name }}</span>
+                                    {% empty %}
+                                        <span class="genre-tag">No genres</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>No favorites added yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
 

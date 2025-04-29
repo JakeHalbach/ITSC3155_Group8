@@ -7,19 +7,32 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.db.models import Q
 from .forms import SignupFormStep1, SignupFormStep2, ProfileForm
 from .models import Profile
-from base.models import Media
+from base.models import Media, Message
 
 
 # Create your views here.
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    profile = user.profile
-    favorites = Media.objects.filter(favorited=profile.user)
+    profile = user.profile 
+    favorites = profile.favorite_titles.all()
+    
+    participated_media_ids = Message.objects.filter(user=user).values_list('room__media__id', flat=True).distinct()
+    participated_medias = Media.objects.filter(id__in=participated_media_ids)
+
     friends = profile.friends.all()
-    context = {'user': user,'profile': profile,'favorites': favorites,'friends': friends}
+
+    context = {
+        'user': user,
+        'profile': profile,
+        'favorites': favorites,
+        'participated_medias': participated_medias,
+        'friends': friends,
+    }
+
     return render(request, 'accounts/profile.html', context)
 
 

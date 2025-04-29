@@ -1,31 +1,67 @@
-{% extends 'base.html' %}
+{% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
+<main>
 
+    <div class="header-bar">
+        <a href="{% url 'title-page' media.id %}" class="back-button">&larr; Back</a>
+        <span class="media-title">{{ media.title }}</span>
+    </div>
 
-<h2>{{ media.title }} - {{ room.topic|capfirst }}</h2>
+    <h2 class="room-header">{{ media.title }} - {{ room.tab|capfirst }}</h2>
 
-<div>
-    {% for message in messages %}
-        <div class="message-container">
-            <a href="{% url 'user-profile' pk=message.user.id %}">
-                <img src="{% if message.user.profile.image %}{{ message.user.profile.image.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" alt="{{ message.user.username }}'s Profile Picture" class="message-profile-pic"></a>
-            <p><strong>{{ message.user.username }}</strong>: {{ message.content }}</p>
+    <div class="room-layout">
+
+        <div class="discussion-section">
+            <h4>Discussion</h4>
+            <div class="messages-column box">
+                {% for message in messages %}
+                    <div class="message-container">
+                        <a href="{% url 'user-profile' pk=message.user.id %}" class="message-profile">
+                            <img src="{% if message.user.profile.image %}{{ message.user.profile.image.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" 
+                                alt="{{ message.user.username }}'s Profile Picture"
+                                class="profile-picture">
+                        </a>
+                        <div class="message-content">
+                            <p><strong>{{ message.user.username }}</strong>: {{ message.content }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No messages yet.</p>
+                {% endfor %}
+            </div>
         </div>
-    {% empty %}
-        <p>No messages yet.</p>
-    {% endfor %}
 
-</div>
+        <div class="participants-section">
+            <h4>Participants</h4>
+            <div class="participants-column box">
+                <div class="participants-list">
+                    {% for user in room.participants.all %}
+                        <div class="participant-item">
+                            <a href="{% url 'user-profile' pk=user.id %}" class="participant-profile">
+                                <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" 
+                                    alt="{{ user.username }}'s Profile Picture"
+                                    class="profile-picture-small">
+                            </a>
+                            <span>{{ user.username }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-{% if user.is_authenticated %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Post</button>
-</form>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> to post a message.</p>
-{% endif %}
+    </div>
 
+    {% if user.is_authenticated %}
+        <form method="POST" class="message-form">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Write message here..." class="message-input">
+            <button type="submit" class="post-button">Post</button>
+        </form>
+    {% else %}
+        <p class="login-message"><a href="{% url 'login' %}">Login</a> to post a message.</p>
+    {% endif %}
+
+</main>
 {% endblock %}
