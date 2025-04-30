@@ -38,13 +38,18 @@ def populate(media_types):
             index = trim(media.find('h3', class_ = 'ipc-title__text').text)
             title = media.find('h3', class_ = 'ipc-title__text').text[index:]
             #print(title)
+
+            if Media.objects.filter(title__iexact=title).exists():
+                continue
+
             description = media.find('div', class_ ="ipc-html-content-inner-div").text
             #print(description)
             if 'TV' in (media.find('div', class_="sc-5179a348-6 bnnHxo dli-title-metadata").text):
                 thype = media_types.filter(id=2).first()
             else:
-                thype = media_types.filter(id=3).first()
-            instance = Media.objects.create(title = title, description = description, media_type = thype)
+                thype = media_types.filter(id=1).first()
+            instance = Media(title = title, description = description, media_type = thype)
+            instance.save()
             instance.genres.set(Genre.objects.filter(name=genre))
     return
 # """
